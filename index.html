@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v13.0 — Enterprise Edition</title>
+<title>OctaveAI v14.0 — Live Web Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -30,7 +30,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 
-/* ── LOGIN OVERLAY (NEW) ── */
+/* ── LOGIN OVERLAY ── */
 #auth-gate {position:fixed;inset:0;background:rgba(9,9,14,0.95);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;}
 .auth-card {background:var(--bg2);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:400px;padding:32px;box-shadow:0 20px 40px rgba(0,0,0,0.5);text-align:center;animation:fadeUp 0.4s ease;}
 .auth-logo {font-family:var(--serif);font-size:28px;color:var(--cream);margin-bottom:8px;}
@@ -51,13 +51,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 .setup-field input:focus, .setup-field select:focus {border-color:var(--gold);}
 .setup-field select option {background:var(--bg2);}
 
-/* ── USER PROFILE BADGE (NEW) ── */
+/* ── USER PROFILE BADGE ── */
 .user-profile-badge {display:flex; align-items:center; gap:8px; background:var(--bg3); border:1px solid var(--border2); padding:4px 10px 4px 4px; border-radius:20px; font-family:var(--mono); font-size:11px; color:var(--gold-lt); cursor:pointer;}
 .up-av {width:22px; height:22px; border-radius:50%; background:var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold); font-family:var(--serif); font-size:10px; font-style:italic;}
 
-
 /* ── LAYOUT ── */
-.app{display:flex;height:100vh;overflow:hidden;}
+.app{display:none; height:100vh;overflow:hidden;}
 .sidebar{width:var(--sw);background:var(--bg2);border-right:1px solid var(--border2);display:flex;flex-direction:column;flex-shrink:0;transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:100;position:relative;}
 .sidebar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.35;}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
@@ -117,6 +116,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 /* ── TOPBAR ── */
 .topbar{display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;position:relative;}
 .topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.12;}
+.tb-left {display:flex; align-items:center; gap:11px; flex:1;}
 .menu-btn{display:none;background:none;border:none;color:var(--text2);cursor:pointer;padding:5px;border-radius:6px;}
 .menu-btn:hover{background:var(--bg3);}
 .tb-info{flex:1;min-width:0;}
@@ -126,7 +126,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 .mode-pill.offline{color:var(--jade);background:var(--offline-dim);border:1px solid rgba(61,184,138,.2);}
 .mode-pill.online{color:var(--sapphire);background:var(--online-dim);border:1px solid rgba(92,143,201,.2);}
 .tb-sub{font-size:11px;color:var(--text3);margin-top:1px;font-family:var(--mono);}
-.tb-actions{display:flex;gap:7px;flex-shrink:0;align-items:center;}
+.tb-actions{display:flex;gap:7px;flex-shrink:0;}
 .tbb{font-size:11px;padding:7px 13px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--body);transition:all .14s;white-space:nowrap;}
 .tbb:hover{background:var(--bg3);color:var(--text);}
 .tbb.gold{background:var(--gold-dim);border-color:var(--border3);color:var(--gold-lt);}
@@ -164,7 +164,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 .bi th{background:var(--bg3); border:1px solid var(--border2); padding:6px 10px; color:var(--gold-lt); text-align:left;}
 .bi td{border:1px solid var(--border); padding:6px 10px; color:var(--text);}
 .bi .ref{display:inline;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--gold-dim);color:var(--gold);border:1px solid var(--border2);font-family:var(--mono);}
-.bi .flag{display:inline;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--amb-dim);color:var(--amber);border:1px solid rgba(212,136,58,.2);font-family:var(--mono);}
 
 /* typing */
 .typing-bub{padding:13px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:3px 14px 14px 14px;display:inline-flex;gap:5px;align-items:center;}
@@ -176,7 +175,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:36px 20px;text-align:center;}
 .wm{font-family:var(--serif);font-size:44px;color:var(--cream);letter-spacing:.5px;margin-bottom:4px;}
 .wm span{color:var(--gold);}
-.wt{font-size:13px;color:var(--text2);margin-bottom:6px;font-weight:300;letter-spacing:.2px; font-style:italic; color:var(--gold-lt);}
+.wt{font-size:15px;color:var(--gold-lt);margin-bottom:24px;font-weight:400;letter-spacing:.5px; font-style:italic;}
 .wc{display:flex;gap:5px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
 .wcr{font-size:9px;padding:2px 9px;border-radius:3px;border:1px solid var(--border2);color:var(--text3);font-family:var(--mono);letter-spacing:.5px;}
 .wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;max-width:580px;width:100%;}
@@ -212,9 +211,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
 .ap-item .ap-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
 .ap-item .ap-rm{cursor:pointer;color:var(--text3);flex-shrink:0;margin-left:2px;font-size:13px;line-height:1;}
 .ap-item .ap-rm:hover{color:var(--ruby);}
-.ap-item.pdf{border-color:rgba(201,92,92,.25);color:var(--ruby);}
-.ap-item.img{border-color:rgba(61,184,138,.25);color:var(--jade);}
-.ap-item.link{border-color:rgba(92,143,201,.25);color:var(--sapphire);}
 
 #chat-input{width:100%;background:transparent;border:none;outline:none;resize:none;padding:10px 12px 12px;font-size:14px;color:var(--text);font-family:var(--body);line-height:1.5;min-height:44px;max-height:130px;}
 #chat-input::placeholder{color:var(--text3);}
@@ -227,41 +223,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--bod
     justify-content:flex-end;
     margin-bottom: 2px;
 }
-
 .send-btn{width:44px;height:44px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;}
 .send-btn:hover{background:var(--gold-lt);transform:scale(1.05);}
 .send-btn:active{transform:scale(.97);}
 .send-btn svg{width:16px;height:16px;fill:none;stroke:var(--bg);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
 .send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
-
-/* link modal */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;backdrop-filter:blur(3px);align-items:center;justify-content:center;}
-.modal-bg.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:22px;width:360px;max-width:92vw;}
-.modal h3{font-family:var(--serif);font-size:17px;color:var(--cream);margin-bottom:4px;}
-.modal p{font-size:11px;color:var(--text3);margin-bottom:14px;font-family:var(--mono);}
-.modal input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:11px;}
-.modal input:focus{border-color:var(--border3);}
-.modal-btns{display:flex;gap:7px;justify-content:flex-end;}
-.modal-btns button{padding:8px 16px;border-radius:8px;border:1px solid var(--border2);font-family:var(--body);font-size:13px;cursor:pointer;transition:all .14s;}
-.modal-btns .cancel{background:transparent;color:var(--text3);}
-.modal-btns .cancel:hover{background:var(--bg3);}
-.modal-btns .confirm{background:var(--gold-dim);color:var(--gold-lt);border-color:var(--border3);}
-.modal-btns .confirm:hover{background:var(--gold-mid);}
-.gsearch-row{display:flex;align-items:center;gap:6px;margin-top:2px;padding-top:10px;border-top:1px solid var(--border);}
-.gsearch-row span{font-size:10px;color:var(--text3);font-family:var(--mono);}
-.gsearch-btn{font-size:10px;padding:4px 11px;border-radius:6px;background:var(--sap-dim);border:1px solid rgba(92,143,201,.2);color:var(--sapphire);cursor:pointer;font-family:var(--mono);transition:all .14s;white-space:nowrap;}
-.gsearch-btn:hover{background:rgba(92,143,201,.2);}
-
-/* camera preview modal */
-.cam-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:210;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
-.cam-modal.open{display:flex;}
-#cam-video{border-radius:12px;max-width:90vw;max-height:55vh;border:2px solid var(--border2);}
-.cam-btns{display:flex;gap:10px;}
-.cam-snap{padding:10px 24px;border-radius:10px;background:var(--gold);border:none;color:var(--bg);font-family:var(--body);font-size:14px;cursor:pointer;}
-.cam-snap:hover{background:var(--gold-lt);}
-.cam-cancel{padding:10px 18px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-family:var(--body);font-size:14px;cursor:pointer;}
-canvas#cam-canvas{display:none;}
 
 /* ── CALCULATOR ── */
 .calc-panel{padding:20px;overflow-y:auto;flex:1;}
@@ -321,17 +287,9 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 .sc-code{font-family:var(--mono);font-size:9px;color:var(--gold);margin-bottom:4px;letter-spacing:.3px;}
 .sc-title{font-size:13px;color:var(--text);margin-bottom:4px;font-family:var(--body);font-weight:400;}
 .sc-desc{font-size:11px;color:var(--text3);font-family:var(--body);font-weight:300;line-height:1.5;}
-.sc-tags{display:flex;gap:4px;margin-top:9px;flex-wrap:wrap;}
-.stag{font-size:9px;padding:2px 6px;border-radius:3px;font-family:var(--mono);}
-.stag.key{background:var(--gold-dim);color:var(--gold);border:1px solid var(--border2);}
-.stag.new{background:var(--jade-dim);color:var(--jade);border:1px solid rgba(61,184,138,.2);}
-.stag.cx{background:var(--ruby-dim);color:var(--ruby);border:1px solid rgba(201,92,92,.2);}
-.stag.us{background:var(--sap-dim);color:var(--sapphire);border:1px solid rgba(92,143,201,.2);}
 
-/* ── OVERLAY ── */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99;backdrop-filter:blur(2px);}
 
-/* ── RESPONSIVE ── */
 @media(max-width:880px){
   .sidebar{position:fixed;top:0;left:0;height:100%;transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
@@ -342,12 +300,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
   .wgrid{grid-template-columns:1fr;}
   .std-grid{grid-template-columns:1fr;}
   .tb-actions .tbb:not(.gold){display:none;}
-}
-@media(max-width:500px){
-  .topbar,.chat-wrap,.input-area,.calc-panel,.lib-hero,.lib-scroll{padding-left:14px;padding-right:14px;}
-  .bubble{max-width:91%;}
-  .wm{font-size:34px;}
-  .r-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
@@ -404,28 +356,27 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
   </div>
 </div>
 
-
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <div class="app" id="main-app" style="display: none;">
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v13.0</span></div>
-    <div class="logo-sub">Elite Charterholder Intelligence</div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v14.0</span></div>
+    <div class="logo-sub">Live Web Edition</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
   <div class="mode-box">
     <div class="mode-label">Response System</div>
     <div class="mode-toggle">
-      <div class="mode-btn offline active" id="btn-offline" onclick="setMode('offline')">
+      <div class="mode-btn offline" id="btn-offline" onclick="setMode('offline')">
         <div class="mode-dot"></div>Offline KB
       </div>
-      <div class="mode-btn online" id="btn-online" onclick="setMode('online')">
+      <div class="mode-btn online active" id="btn-online" onclick="setMode('online')">
         <div class="mode-dot"></div>Online Search
       </div>
     </div>
-    <div class="mode-desc" id="mode-desc">Using built-in knowledge base — instant responses, no API needed for standards</div>
+    <div class="mode-desc" id="mode-desc">Web search enabled — AI searches Google for latest standards and news.</div>
   </div>
   <div class="fw-switcher">
     <div class="sec-label">Active Framework</div>
@@ -455,8 +406,8 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
   </div>
   <div class="status-area">
     <div class="s-row">
-      <div class="s-dot jade" id="s-dot"></div>
-      <div class="s-txt" id="s-txt">Ready · Offline mode</div>
+      <div class="s-dot sap" id="s-dot"></div>
+      <div class="s-txt" id="s-txt">Ready · Online mode</div>
     </div>
     <div class="s-model" id="s-model">Knowledge base loaded · IFRS</div>
   </div>
@@ -472,20 +423,19 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
         <div class="tb-title" id="tb-title">
           OctaveAI
           <span class="fw-pill" id="fw-pill">IFRS</span>
-          <span class="mode-pill offline" id="mode-pill">⚡ Offline</span>
+          <span class="mode-pill online" id="mode-pill">🌐 Online</span>
         </div>
-        <div class="tb-sub" id="tb-sub">Elite Charterholder Intelligence · Built-in knowledge base</div>
+        <div class="tb-sub" id="tb-sub">Enterprise accounting intelligence · Web search enabled</div>
       </div>
     </div>
     <div class="tb-actions">
       <button class="tbb" onclick="clearChat()">New session</button>
       <button class="tbb gold" onclick="generateReport()">Generate report ↗</button>
       
-      <div class="user-profile-badge" onclick="location.reload()" title="Click to log out / edit profile">
+      <div class="user-profile-badge" onclick="location.reload()" title="Click to log out">
         <div class="up-av" id="up-av">U</div>
         <span id="up-name">Guest</span>
       </div>
-
     </div>
   </div>
 
@@ -494,7 +444,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
       <div class="welcome" id="welcome">
         <div class="wm"><span>Octave</span>AI</div>
         <div class="wt" id="welcome-subtitle">Welcome Charterholder to OctaveAI</div>
-        <div class="wc"><span class="wcr">CA</span><span class="wcr">ACCA</span><span class="wcr">CPA</span><span class="wcr">CFA</span><span class="wcr">FCA</span><span class="wcr">CMA</span></div>
         <div class="wgrid" id="welcome-grid"></div>
       </div>
       <div id="messages"></div>
@@ -506,19 +455,9 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
           <div class="attach-row">
             <button class="att-btn" onclick="document.getElementById('file-pdf').click()" title="Upload PDF">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
-              <span class="tip">Upload PDF</span>
             </button>
             <button class="att-btn" onclick="document.getElementById('file-img').click()" title="Upload Image">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span class="tip">Upload Image</span>
-            </button>
-            <button class="att-btn" onclick="openCamera()" title="Take Photo">
-              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span class="tip">Take Photo</span>
-            </button>
-            <button class="att-btn" onclick="openLinkModal()" title="Add Link">
-              <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-              <span class="tip">Add Link</span>
             </button>
           </div>
           <div class="attach-preview" id="attach-preview"></div>
@@ -534,30 +473,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     
     <input type="file" id="file-pdf" accept=".pdf,application/pdf" style="display:none" onchange="handleFilePDF(this)">
     <input type="file" id="file-img" accept="image/*" style="display:none" onchange="handleFileImg(this)">
-
-    <div class="modal-bg" id="link-modal">
-      <div class="modal">
-        <h3>Add a link</h3>
-        <p>Paste a URL to include as context for your question</p>
-        <input type="url" id="link-input" placeholder="https://..." onkeydown="if(event.key==='Enter')confirmLink()">
-        <div class="gsearch-row">
-          <span>Or search Google first:</span>
-          <div class="gsearch-btn" onclick="googleSearch()">🔍 Open Google Search</div>
-        </div>
-        <div class="modal-btns" style="margin-top:14px;">
-          <button class="cancel" onclick="closeLinkModal()">Cancel</button>
-          <button class="confirm" onclick="confirmLink()">Add link</button>
-        </div>
-      </div>
-    </div>
-    <div class="cam-modal" id="cam-modal">
-      <video id="cam-video" autoplay playsinline></video>
-      <canvas id="cam-canvas"></canvas>
-      <div class="cam-btns">
-        <button class="cam-snap" onclick="snapPhoto()">📸 Capture</button>
-        <button class="cam-cancel" onclick="closeCamera()">Cancel</button>
-      </div>
-    </div>
   </div>
 
   <div id="view-calc" style="display:none;flex:1;overflow:hidden;">
@@ -578,10 +493,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
           <h3>Optional — IFRS 16 §24</h3>
           <div class="field"><label>Initial direct costs (₹ L)</label><input type="number" id="c-idc" value="0" min="0" oninput="runCalc()"></div>
           <div class="field"><label>Lease incentives received (₹ L)</label><input type="number" id="c-inc" value="0" min="0" oninput="runCalc()"></div>
-          <div class="field"><label>Dismantling provision / ARO (₹ L)</label><input type="number" id="c-aro" value="0" min="0" oninput="runCalc()"></div>
-          <div class="field"><label>Depreciation method</label>
-            <select id="c-dep" onchange="runCalc()"><option value="sl">Straight-line (default)</option><option value="db">Declining balance</option></select>
-          </div>
         </div>
       </div>
       <div class="r-grid" id="r-grid"></div>
@@ -593,10 +504,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
           <tbody id="am-body"></tbody><tfoot id="am-foot"></tfoot>
         </table></div>
       </div>
-      <div class="c-card" style="margin-bottom:16px;">
-        <h3>Balance sheet — Year 1</h3><div id="bs-sec"></div>
-      </div>
-      <button class="tbb gold" style="font-size:13px;padding:9px 20px;border-radius:var(--r);cursor:pointer;font-family:var(--body);" onclick="calcToChat()">Send to OctaveAI for analysis ↗</button>
     </div>
   </div>
 
@@ -604,7 +511,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     <div class="lib-wrap">
       <div class="lib-hero">
         <h2>Standards Library</h2>
-        <p id="lib-sub">IFRS · IND AS · US GAAP — Expanded Core Standards · Click any card to consult OctaveAI</p>
+        <p id="lib-sub">Expanded Core Standards · Click any card to consult OctaveAI</p>
       </div>
       <div class="lib-tabs">
         <div class="lib-tab active" id="lt-IFRS" onclick="setLibTab('IFRS')">IFRS / IAS</div>
@@ -619,7 +526,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// USER SETUP LOGIC (NEW)
+// USER SETUP LOGIC
 // ═══════════════════════════════════════════════════════════════
 let userRawName = "Guest";
 let userProf = "Student";
@@ -634,12 +541,10 @@ function goToSetup(provider) {
 }
 
 function completeSetup() {
-    // Capture user inputs
     userRawName = document.getElementById('setup-name').value.trim() || "User";
     userProf = document.getElementById('setup-prof').value;
     const initialFw = document.getElementById('setup-fw').value;
 
-    // Logic: CA Joy, Joy (CFA), etc.
     if (userProf === 'ACCA' || userProf === 'CA') {
         userDisplayName = `CA ${userRawName}`;
     } else if (userProf === 'CFA' || userProf === 'CMA') {
@@ -648,55 +553,24 @@ function completeSetup() {
         userDisplayName = userRawName;
     }
 
-    // Update UI tags
     document.getElementById('up-name').textContent = userDisplayName;
     document.getElementById('up-av').textContent = userDisplayName.charAt(0).toUpperCase();
     document.getElementById('welcome-subtitle').textContent = `Welcome Charterholder ${userDisplayName} to OctaveAI`;
 
-    // Inject into AI Brain
     dynamicSystemPrompt = `CRITICAL USER CONTEXT: The professional you are speaking to is named ${userDisplayName}. They hold the designation of ${userProf}. You must address them respectfully by their name (${userDisplayName}) in your responses.`;
 
-    // Hide gate, show app, and run initial setup
     document.getElementById('auth-gate').style.display = 'none';
     document.getElementById('main-app').style.display = 'flex';
     
-    setMode('online');
+    setMode('online'); // Defaults to Online (Google Search capability)
     setFW(initialFw);
     runCalc();
 }
 
-
 // ═══════════════════════════════════════════════════════════════
-// API KEY & KNOWLEDGE BASE
+// API KEY & FRAMEWORK DATA
 // ═══════════════════════════════════════════════════════════════
 const GEMINI_API_KEY = "AIzaSyDuCtKZCWzZSDYVVhOT_wzy8XoxiiEf-E0";
-
-const KB = {
-'IFRS 10': `IFRS 10 — Consolidated Financial Statements\nOVERVIEW: Establishes a single control model. An investor controls an investee when it is exposed, or has rights, to variable returns from its involvement and has the ability to affect those returns through its power over the investee.\n[JUDGEMENT REQUIRED] Assessing 'de facto' control and identifying the principal vs agent.`,
-'IFRS 13': `IFRS 13 — Fair Value Measurement\nOVERVIEW: Defines fair value as an exit price (price to sell an asset or transfer a liability in an orderly transaction). Establishes a 3-level fair value hierarchy (Level 1: Quoted, Level 2: Observable, Level 3: Unobservable).`,
-'IFRS 18': `IFRS 18 — Presentation and Disclosure in Financial Statements (effective Jan 2027, replaces IAS 1)\nOVERVIEW: IFRS 18 mandates a restructured Statement of Profit or Loss with THREE mandatory categories of income and expenses:\n1. Operating\n2. Investing\n3. Financing`,
-'IFRS 16': `IFRS 16 — Leases (effective Jan 2019)\nLESSEE ACCOUNTING — SINGLE MODEL:\nDAY 1 — COMMENCEMENT:\n  Dr  Right-of-use (ROU) asset\n    Cr  Lease liability\n[JUDGEMENT REQUIRED] Lease term determination (reasonably certain threshold).`,
-'IFRS 15': `IFRS 15 — Revenue from Contracts with Customers\nFIVE-STEP MODEL:\nSTEP 1 — IDENTIFY THE CONTRACT\nSTEP 2 — IDENTIFY PERFORMANCE OBLIGATIONS\nSTEP 3 — DETERMINE TRANSACTION PRICE\nSTEP 4 — ALLOCATE TRANSACTION PRICE\nSTEP 5 — RECOGNISE REVENUE\n[JUDGEMENT REQUIRED] Variable consideration constraint.`,
-'IFRS 9': `IFRS 9 — Financial Instruments\nTHREE-STAGE ECL MODEL:\nStage 1 (Performing): 12-month ECL\nStage 2 (SICR): Lifetime ECL\nStage 3 (Credit-impaired): Lifetime ECL\n[JUDGEMENT REQUIRED] Significant Increase in Credit Risk (SICR) triggers.`,
-'IAS 1': `IAS 1 — Presentation of Financial Statements\nOVERVIEW: Sets overall requirements for the presentation of financial statements, guidelines for their structure and minimum requirements for their content. Replaced by IFRS 18 in 2027.`,
-'IAS 2': `IAS 2 — Inventories\nOVERVIEW: Inventories are measured at the lower of cost and net realisable value (NRV). Permitted cost formulas are FIFO or weighted average. LIFO is strictly prohibited under IAS 2.`,
-'IAS 7': `IAS 7 — Statement of Cash Flows\nOVERVIEW: Requires classification into Operating, Investing, and Financing activities. Operating cash flows can be presented using the direct or indirect method.`,
-'IAS 12': `IAS 12 — Income Taxes\nTEMPORARY DIFFERENCE APPROACH:\nDTL: Taxable temporary difference × tax rate\nDTA: Deductible temporary difference × tax rate\n[JUDGEMENT REQUIRED] Probable future taxable profit to utilize DTA.`,
-'IND AS 1': `IND AS 1 — Presentation of Financial Statements\nOVERVIEW: Similar to IAS 1. However, Schedule III of the Companies Act, 2013 heavily governs the exact formats and disclosures required for Indian companies.`,
-'IND AS 2': `IND AS 2 — Inventories\nOVERVIEW: Converged with IAS 2. Measured at lower of cost or NRV. FIFO or weighted average only.`,
-'IND AS 7': `IND AS 7 — Statement of Cash Flows\nOVERVIEW: Converged with IAS 7. Note: For listed entities in India, SEBI strictly mandates the use of the Indirect Method for operating cash flows.`,
-'IND AS 116': `IND AS 116 — Leases\nSUBSTANTIALLY CONVERGED WITH IFRS 16. Key differences:\n1. PORTFOLIO APPROACH explicitly permitted.\n2. SCHEDULE III presentation differences.\n[JUDGEMENT REQUIRED] IBR determination using Indian market rates.`,
-'IND AS 115': `IND AS 115 — Revenue from Contracts with Customers\nREAL ESTATE SECTOR (India challenge):\nUnder-construction residential units — typically POINT IN TIME (on handing over possession) UNLESS buyer controls asset or enforceable right to payment exists (must assess RERA implications).`,
-'IND AS 109': `IND AS 109 — Financial Instruments\nINDIA-SPECIFIC: RBI Prudential Norms interact with IND AS 109 ECL. Where RBI provision > IND AS ECL provision → higher provision required. Difference held in Impairment Reserve.`,
-'ASC 210': `ASC 210 — Balance Sheet\nOVERVIEW: Provides guidelines for classification of assets and liabilities as current vs. non-current. Heavily rules-based operating cycle definitions.`,
-'ASC 230': `ASC 230 — Statement of Cash Flows\nOVERVIEW: US GAAP requires interest paid, interest received, and dividends received to be classified as Operating Cash Flows. Dividends paid are Financing. (Unlike IFRS which allows choices).`,
-'ASC 310': `ASC 310 — Receivables\nOVERVIEW: Covers accounting for loans and trade receivables. Interacts heavily with ASC 326 (CECL) for impairment.`,
-'ASC 810': `ASC 810 — Consolidation\nOVERVIEW: Dual consolidation model. Evaluates entities under the Variable Interest Entity (VIE) model first. If not a VIE, evaluates under the Voting Interest Entity (VOE) model. Unique to US GAAP.`,
-'ASC 842': `ASC 842 — Leases\nDUAL MODEL for lessees (key difference from IFRS 16):\nFINANCE LEASE (similar to IFRS 16).\nOPERATING LEASE: Single straight-line lease expense in P&L.\n[JUDGEMENT REQUIRED] Finance vs operating classification (75%/90% tests).`,
-'ASC 606': `ASC 606 — Revenue from Contracts with Customers\nPRINCIPAL vs AGENT: Controls specified good/service before transfer → recognise GROSS. Arranges for another party → recognise NET.`,
-'ASC 326': `ASC 326 — Credit Losses (CECL)\nCURRENT EXPECTED CREDIT LOSS (CECL) MODEL:\nKey principle: Recognise LIFETIME expected credit losses on DAY 1. No 3-stage model like IFRS 9.`,
-'ASC 330': `ASC 330 — Inventory\nOVERVIEW: Lower of cost or market. Unlike IFRS, LIFO (Last-In, First-Out) is permitted under US GAAP and widely used for tax deferral.`,
-};
 
 const FW_META={
   'IFRS':{desc:'IASB · International Financial Reporting Standards',body:'IASB · 2024 · Global',calcT:'IFRS 16 — Lease Calculator',calcS:'ROU asset & lease liability · Effective interest · IFRS 16 §§22–38'},
@@ -705,70 +579,15 @@ const FW_META={
 };
 
 const STDS = {
-'IFRS':[
-  {code:'IFRS 10',title:'Consolidated Financial Statements',desc:'Single control model. Power, exposure, and link between power and returns.',tags:['key']},
-  {code:'IFRS 13',title:'Fair Value Measurement',desc:'Exit price definition and 3-level observable input hierarchy.',tags:['key']},
-  {code:'IFRS 15',title:'Revenue from Contracts',desc:'Five-step model. Converged with ASC 606.',tags:['key']},
-  {code:'IFRS 16',title:'Leases',desc:'Single lessee model — all leases on B/S. ROU asset + liability.',tags:['key']},
-  {code:'IFRS 18',title:'Presentation & Disclosure',desc:'Replaces IAS 1. Mandatory P&L categories: operating, investing, financing.',tags:['new','key']},
-  {code:'IFRS 9',title:'Financial Instruments',desc:'Classification & measurement, 3-stage ECL model.',tags:['key','cx']},
-  {code:'IAS 1',title:'Presentation of FS',desc:'Overall structure and content requirements.',tags:[]},
-  {code:'IAS 2',title:'Inventories',desc:'Lower of cost or NRV. LIFO prohibited.',tags:[]},
-  {code:'IAS 7',title:'Statement of Cash Flows',desc:'Operating, Investing, Financing classification.',tags:[]},
-  {code:'IAS 12',title:'Income Taxes',desc:'Temporary difference approach for deferred tax.',tags:['cx']},
-],
-'IND AS':[
-  {code:'IND AS 1',title:'Presentation of FS',desc:'Schedule III interaction and Indian formats.',tags:['key']},
-  {code:'IND AS 2',title:'Inventories',desc:'Lower of cost or NRV. FIFO/Weighted Avg.',tags:[]},
-  {code:'IND AS 7',title:'Statement of Cash Flows',desc:'SEBI requires indirect method for operating cash flows.',tags:[]},
-  {code:'IND AS 109',title:'Financial Instruments',desc:'ECL with RBI regulatory floor for banks.',tags:['key','cx']},
-  {code:'IND AS 115',title:'Revenue from Contracts',desc:'RERA interaction for real estate developers.',tags:['key']},
-  {code:'IND AS 116',title:'Leases',desc:'Converged with IFRS 16. Portfolio approach common.',tags:['key']},
-  {code:'IND AS 12',title:'Income Taxes',desc:'MAT Credit Entitlement accounted as DTA.',tags:['cx']},
-],
-'US GAAP':[
-  {code:'ASC 210',title:'Balance Sheet',desc:'Current vs non-current classification rules.',tags:[]},
-  {code:'ASC 230',title:'Statement of Cash Flows',desc:'Interest and dividends strictly Operating.',tags:['key']},
-  {code:'ASC 310',title:'Receivables',desc:'Loans and trade receivables. Interacts with CECL.',tags:[]},
-  {code:'ASC 326',title:'Credit Losses (CECL)',desc:'Day 1 Lifetime ECL. Front-loaded provisions.',tags:['key','cx']},
-  {code:'ASC 330',title:'Inventory',desc:'LIFO permitted. LIFO reserve disclosure required.',tags:['key']},
-  {code:'ASC 606',title:'Revenue from Contracts',desc:'Principal vs agent, license right to access/use.',tags:['key']},
-  {code:'ASC 810',title:'Consolidation',desc:'Variable Interest Entity (VIE) complex model.',tags:['key','cx']},
-  {code:'ASC 842',title:'Leases',desc:'Dual model: finance + operating (both on B/S).',tags:['key']},
-],
+'IFRS':[ {code:'IFRS 16',title:'Leases',desc:'Single lessee model — all leases on B/S.',tags:['key']}, {code:'IFRS 9',title:'Financial Instruments',desc:'Classification & measurement, 3-stage ECL model.',tags:['key','cx']} ],
+'IND AS':[ {code:'IND AS 116',title:'Leases',desc:'Converged with IFRS 16. Portfolio approach common.',tags:['key']}, {code:'IND AS 109',title:'Financial Instruments',desc:'ECL with RBI regulatory floor for banks.',tags:['key','cx']} ],
+'US GAAP':[ {code:'ASC 842',title:'Leases',desc:'Dual model: finance + operating.',tags:['key']}, {code:'ASC 326',title:'Credit Losses (CECL)',desc:'Day 1 Lifetime ECL.',tags:['key','cx']} ],
 };
 
 const WELCOME_CARDS={
-  'IFRS':[
-    {code:'IFRS 10',title:'Consolidations',sub:'Control model definition',q:'Explain the IFRS 10 control model in depth. Include audit implications.'},
-    {code:'IFRS 16',title:'Finance lease',sub:'ROU asset, JEs, amortisation',q:'Explain IFRS 16 finance lease full accounting treatment with journal entries.'},
-    {code:'IFRS 15',title:'Revenue 5-step model',sub:'Variable consideration',q:'Explain IFRS 15 five-step revenue recognition with SaaS examples.'},
-    {code:'IFRS 9',title:'ECL model — 3 stages',sub:'Stage thresholds',q:'Explain IFRS 9 ECL model three stages and SICR triggers.'},
-  ],
-  'IND AS':[
-    {code:'IND AS 116',title:'Leases — India',sub:'vs IFRS 16',q:'Explain IND AS 116 vs IFRS 16, specifically portfolio approach and IBR.'},
-    {code:'IND AS 115',title:'Revenue — Real estate',sub:'RERA, point vs over time',q:'Explain IND AS 115 for Indian real estate and RERA impacts.'},
-    {code:'IND AS 109',title:'ECL model — Banks',sub:'RBI interaction',q:'Explain IND AS 109 ECL for banks and RBI regulatory floors.'},
-    {code:'IND AS 12',title:'MAT credit',sub:'MAT entitlement as DTA',q:'Explain IND AS 12 MAT credit entitlement.'},
-  ],
-  'US GAAP':[
-    {code:'ASC 842',title:'Lease — dual model',sub:'Finance vs operating',q:'Explain ASC 842 lessee accounting, 75%/90% tests, and journal entries.'},
-    {code:'ASC 810',title:'Consolidation',sub:'VIE model',q:'Explain the ASC 810 Variable Interest Entity (VIE) consolidation model.'},
-    {code:'ASC 326',title:'CECL model',sub:'Day 1 lifetime ECL',q:'Explain ASC 326 CECL model vs IFRS 9.'},
-    {code:'ASC 330',title:'Inventory LIFO',sub:'LIFO vs IFRS',q:'Explain ASC 330 LIFO accounting and LIFO reserve disclosures.'},
-  ],
-};
-
-const CHIPS={
-  'IFRS':['IFRS 10 control model','IFRS 16 journal entries','IAS 7 cash flows'],
-  'IND AS':['IND AS 116 vs IFRS 16','IND AS 115 real estate','IND AS 7 SEBI direct method'],
-  'US GAAP':['ASC 810 VIE model','ASC 842 operating vs finance','ASC 330 LIFO reserve'],
-};
-
-const QUICK_NAV={
-  'IFRS':[{l:'IFRS 10 — Consolidations',q:'Explain IFRS 10 control.'},{l:'IFRS 16 — Leases',q:'Explain IFRS 16 lease accounting.'}],
-  'IND AS':[{l:'IND AS 116 — Leases',q:'Explain IND AS 116 vs IFRS 16.'},{l:'IND AS 115 — Revenue',q:'Explain IND AS 115 for real estate.'}],
-  'US GAAP':[{l:'ASC 842 — Leases',q:'Explain ASC 842 dual model.'},{l:'ASC 810 — Consolidations',q:'Explain ASC 810 VIE.'}],
+  'IFRS':[ {code:'IFRS 10',title:'Consolidations',sub:'Control model definition',q:'Explain the IFRS 10 control model.'}, {code:'IFRS 16',title:'Finance lease',sub:'ROU asset, JEs',q:'Explain IFRS 16 finance lease treatment.'} ],
+  'IND AS':[ {code:'IND AS 116',title:'Leases — India',sub:'vs IFRS 16',q:'Explain IND AS 116 vs IFRS 16.'}, {code:'IND AS 115',title:'Revenue — Real estate',sub:'RERA impacts',q:'Explain IND AS 115 for real estate.'} ],
+  'US GAAP':[ {code:'ASC 842',title:'Lease — dual model',sub:'Finance vs operating',q:'Explain ASC 842 lessee accounting.'}, {code:'ASC 326',title:'CECL model',sub:'Day 1 lifetime ECL',q:'Explain ASC 326 CECL model.'} ]
 };
 
 let fw='IFRS', mode='online', msgs=[], isLoading=false, libTab='IFRS';
@@ -779,16 +598,14 @@ function setMode(m){
   document.getElementById('btn-'+m).classList.add('active');
   const offline=m==='offline';
   document.getElementById('mode-desc').textContent=offline
-    ?'Using built-in knowledge base — instant responses, no API needed for standards'
-    :'Web search enabled — Gemini fetches latest standards updates and news';
+    ?'Using built-in knowledge base.'
+    :'Web search enabled — AI searches Google for latest standards and news.';
+  
   const pill=document.getElementById('mode-pill');
   pill.textContent=offline?'⚡ Offline':'🌐 Online';
   pill.className='mode-pill '+(offline?'offline':'online');
   document.getElementById('s-dot').className='s-dot '+(offline?'jade':'sap');
   document.getElementById('s-txt').textContent=offline?'Ready · Offline mode':'Ready · Online mode';
-  document.getElementById('tb-sub').textContent=offline
-    ?'Enterprise accounting intelligence · Built-in knowledge base'
-    :'Enterprise accounting intelligence · Web search enabled';
 }
 
 function setFW(f,el){
@@ -798,58 +615,22 @@ function setFW(f,el){
   const m=FW_META[f];
   document.getElementById('fw-desc').textContent=m.desc;
   document.getElementById('fw-pill').textContent=f;
-  document.getElementById('s-model').textContent='Knowledge base · '+f;
   document.getElementById('calc-title').textContent=m.calcT;
-  document.getElementById('calc-sub').textContent=m.calcS;
-  renderQuickNav(); renderWelcome(); renderChips();
+  
+  document.getElementById('welcome-grid').innerHTML=(WELCOME_CARDS[fw]||[]).map(c=>
+    `<div class="wcard" onclick="askQ('${c.q}')"><div class="wc-code">${c.code}</div><div class="wc-title">${c.title}</div><div class="wc-sub">${c.sub}</div></div>`
+  ).join('');
+  
   libTab=f; renderLib(); updateLibTabs();
   closeSidebar();
-  
-  if(msgs.length > 0) {
-      const msg = `Framework switched to **${f}**. I will now answer strictly according to ${m.desc}.`;
-      msgs.push({role:'assistant', content: msg});
-      appendMsg('assistant', msg);
-  }
 }
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function escJ(s){return String(s).replace(/'/g,"\\'").replace(/\n/g,' ');}
-
-function renderQuickNav(){
-  document.getElementById('quick-nav').innerHTML=(QUICK_NAV[fw]||[]).map(n=>
-    `<div class="nav-item" onclick="askQ('${escJ(n.q)}')">
-      <div class="ni-box"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M3 4h8M3 7h6M3 10h4"/></svg></div>${esc(n.l)}</div>`
-  ).join('');
-}
-function renderWelcome(){
-  document.getElementById('welcome-grid').innerHTML=(WELCOME_CARDS[fw]||[]).map(c=>
-    `<div class="wcard" onclick="askQ('${escJ(c.q)}')">
-      <div class="wc-code">${esc(c.code)}</div>
-      <div class="wc-title">${esc(c.title)}</div>
-      <div class="wc-sub">${esc(c.sub)}</div></div>`
-  ).join('');
-}
-function renderChips(){
-  document.getElementById('chips-row').innerHTML=(CHIPS[fw]||[]).map(c=>
-    `<div class="chip" onclick="fillIn('${escJ(c)}')">${esc(c)}</div>`
-  ).join('');
-}
 function renderLib(){
-  const TAG={key:'<span class="stag key">Key</span>',new:'<span class="stag new">New</span>',cx:'<span class="stag cx">Judgement</span>'};
-  document.getElementById('std-grid').innerHTML=(STDS[libTab]||[]).map(s=>{
-    return `<div class="sc" onclick="askQ('Explain ${escJ(s.code)} — ${escJ(s.title)} in detail. Ensure you provide Executive Summary, Technical Analysis, Journal Entries, Audit Assertions, and Key Disclosures. Framework: ${fw}')">
-      <div class="sc-code">${esc(s.code)}</div>
-      <div class="sc-title">${esc(s.title)}</div>
-      <div class="sc-desc">${esc(s.desc)}</div>
-      <div class="sc-tags">${(s.tags||[]).map(t=>TAG[t]||'').join('')}</div>
-    </div>`;
-  }).join('');
-  document.getElementById('lib-sub').textContent={
-    'IFRS':'IASB · International Financial Reporting Standards',
-    'IND AS':'MCA / ICAI · Indian Accounting Standards',
-    'US GAAP':'FASB · ASC Codification · United States'
-  }[libTab];
+  document.getElementById('std-grid').innerHTML=(STDS[libTab]||[]).map(s=>
+    `<div class="sc" onclick="askQ('Explain ${s.code} — ${s.title}.')"><div class="sc-code">${s.code}</div><div class="sc-title">${s.title}</div><div class="sc-desc">${s.desc}</div></div>`
+  ).join('');
 }
+
 function setLibTab(t){libTab=t;updateLibTabs();renderLib();}
 function updateLibTabs(){
   document.querySelectorAll('.lib-tab').forEach(e=>e.classList.remove('active'));
@@ -861,22 +642,14 @@ function switchView(v){
     document.getElementById('view-'+id).style.display='none';
     document.getElementById('nav-'+id).classList.remove('active');
   });
-  const el=document.getElementById('view-'+v);
-  el.style.display=v==='lib'?'flex':'flex';
-  el.style.flexDirection='column';
+  document.getElementById('view-'+v).style.display='flex';
   document.getElementById('nav-'+v).classList.add('active');
-  if(v==='lib'){libTab=fw;renderLib();updateLibTabs();}
-  const T={chat:'OctaveAI',calc:FW_META[fw].calcT,lib:'Standards Library'};
-  document.getElementById('tb-title').innerHTML=esc(T[v])+
-    `<span class="fw-pill">${esc(fw)}</span>`+
-    `<span class="mode-pill ${mode}">${mode==='offline'?'⚡ Offline':'🌐 Online'}</span>`;
   closeSidebar();
 }
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
 
 function nowT(){return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}
-function hideWelcome(){const w=document.getElementById('welcome');if(w)w.style.display='none';}
 
 function exportMarkdownTableToExcel(text) {
     const lines = text.split('\n');
@@ -895,108 +668,57 @@ function exportMarkdownTableToExcel(text) {
         const ws = XLSX.utils.aoa_to_sheet(tableData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "OctaveAI_Export");
-        XLSX.writeFile(wb, "OctaveAI_" + fw.replace(/\s+/g, '') + "_Schedule.xlsx");
-        appendMsg('assistant', "✅ *I have formatted the data and downloaded the Excel file directly to your device.*");
+        XLSX.writeFile(wb, "OctaveAI_Schedule.xlsx");
     }
 }
 
-function fmtReply(t){
-  let h=esc(t);
-  h=h.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-  h=h.replace(/\*(.*?)\*/g,'<em>$1</em>');
-  h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
-  h=h.replace(/^#{1,3}\s(.+)$/gm,'<h3>$1</h3>');
-  h=h.replace(/^[-•]\s(.+)$/gm,'<li>$1</li>');
-  h=h.replace(/(<li>.*?<\/li>\n?)+/gs,'<ul>$&</ul>');
-  h=h.replace(/\[JUDGEMENT REQUIRED\]/g,'<span class="flag">⚠ Judgement required</span>');
-  
-  h=h.replace(/\|(.*)\|/g, function(match) {
-      if(match.includes('---')) return '';
-      return `<tr>${match.split('|').slice(1,-1).map(c => `<td>${c.trim()}</td>`).join('')}</tr>`;
-  });
-  h=h.replace(/(<tr>.*?<\/tr>\n?)+/gs, '<table>$&</table>');
-  h=h.replace(/<td>(.*?)<\/td>/g, function(match, p1) { return p1 === '' ? '' : match; });
-  
-  h=h.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
-  h='<p>'+h+'</p>';
-  return h.replace(/<p><\/p>/g,'');
-}
-
-function updateStatus(text, color='var(--amber)') {
-    const txtEl = document.getElementById('s-txt');
-    const dotEl = document.getElementById('s-dot');
-    if(txtEl) txtEl.textContent = text;
-    if(dotEl) dotEl.style.background = color;
-}
-
 function appendMsg(role,content){
-  hideWelcome();
+  document.getElementById('welcome').style.display='none';
   const wrap=document.getElementById('messages');
   const div=document.createElement('div');
   div.className='msg '+role;
-  // DYNAMIC AVATAR BASED ON USER NAME
   const av=role==='assistant'?'<div class="av av-ai">O</div>':`<div class="av av-user">${userDisplayName.substring(0,2).toUpperCase()}</div>`;
-  const body=role==='assistant'?fmtReply(content):esc(content);
-  const modeClass=role==='assistant'?(mode==='offline'?'offline-cite':'online-cite'):'';
-  const citeLabel=role==='assistant'?(mode==='offline'?'⚡ KB':'🌐 Live'):'';
-  div.innerHTML=`${av}<div class="bubble"><div class="bi">${body}</div><div class="b-meta">${nowT()}${role==='assistant'?`<span class="cite ${modeClass}">${fw} · ${citeLabel}</span>`:''}</div></div>`;
+  
+  let body = content.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  body = body.replace(/`([^`]+)`/g,'<code>$1</code>');
+  body = body.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+  
+  div.innerHTML=`${av}<div class="bubble"><div class="bi">${body}</div><div class="b-meta">${nowT()}</div></div>`;
   wrap.appendChild(div);
   wrap.parentElement.scrollTop=1e9;
 }
 
-function showTyping(){
-  const wrap=document.getElementById('messages');
-  const div=document.createElement('div');
-  div.className='msg assistant';div.id='typ';
-  div.innerHTML='<div class="av av-ai">O</div><div class="bubble"><div class="typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
-  wrap.appendChild(div);
-  wrap.parentElement.scrollTop=1e9;
-}
-function rmTyping(){const t=document.getElementById('typ');if(t)t.remove();}
-function setLoading(v){
-  isLoading=v;
-  document.getElementById('send-btn').disabled=v;
-  if(v) {
-      updateStatus('Analysing...', 'var(--amber)');
-  } else {
-      updateStatus('Ready · '+(mode==='offline'?'Offline':'Online')+' mode', mode==='offline'?'var(--jade)':'var(--sapphire)');
-  }
+function updateStatus(text, color='var(--amber)') {
+    document.getElementById('s-txt').textContent = text;
+    document.getElementById('s-dot').style.background = color;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// V12.0 AUTO-DISCOVERY ENGINE WITH USER CONTEXT
-// ═══════════════════════════════════════════════════════════════
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+// ═══════════════════════════════════════════════════════════════
+// V14 AUTO-DISCOVERY + GOOGLE SEARCH GROUNDING ENGINE
+// ═══════════════════════════════════════════════════════════════
 async function sendMsg(){
   const inp=document.getElementById('chat-input');
   const text=inp.value.trim();
   if(!text||isLoading)return;
-  if(document.getElementById('view-chat').style.display==='none')switchView('chat');
   inp.value='';inp.style.height='auto';
 
-  const attachNote=attachments.length?'\n\n[Attached: '+attachments.map(a=>a.type==='link'?'URL: '+a.url:a.name).join(', ')+']':'';
-  appendMsg('user',text+(attachNote?'\n'+attachNote.trim():''));
-  
-  let currentText = text + (attachNote?'\n'+attachNote.trim():'') + '\n\n[Context: Answer according to ' + fw + ']';
-  msgs.push({ role: 'user', content: currentText });
+  const attachNote=attachments.length?'\n[Attached Files]':'';
+  appendMsg('user',text);
+  msgs.push({ role: 'user', content: text + attachNote + '\n\n[Context: Answer according to ' + fw + ']' });
 
-  setLoading(true); showTyping();
+  isLoading=true; document.getElementById('send-btn').disabled=true;
+  updateStatus('Analysing...', 'var(--amber)');
 
-  const systemBase=`You are OctaveAI v13.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
+  const systemBase=`You are OctaveAI v14.0, an elite Big 4 Technical Accounting Partner.
 ${dynamicSystemPrompt}
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
-RESPONSE MODE: ${mode}
-
-CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
-1. EXHAUSTIVE DEPTH: Analyze the query with extreme technical precision. Provide a comprehensive memo.
-2. STRUCTURE: Start with an "Executive Summary", followed by "Technical Analysis", "Journal Entries (Dr/Cr)", "Financial Statement Impact (BS, IS, CF, Ratios)", and "Audit & Compliance Implications".
-3. CITATIONS: You must cite exact standard paragraph numbers (e.g., IFRS 15.31, ASC 842-20-25).
-4. EXCEL GENERATION: If the user asks for an Excel file, table, or schedule, format it perfectly as a Markdown table and append exactly "[GENERATE_EXCEL]" at the very end of your response.`;
+If asked to generate an Excel file or schedule, output a Markdown table and write "[GENERATE_EXCEL]" at the end.`;
 
   const safeContents = [
       { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v13.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
+      { role: 'model', parts: [{ text: `I understand. I am OctaveAI v14.0. I will respect the user as ${userDisplayName} and apply ${fw} rules.` }] }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
@@ -1010,39 +732,41 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
   for(const a of attachments){
     if(a.type==='pdf' || a.type==='image'){
       currentParts.push({ inlineData: { mimeType: a.mediaType, data: a.data } });
-    } else if(a.type==='link'){
-      currentParts.push({ text: '[Linked URL context: ' + a.url + ']' });
     }
   }
-  currentParts.push({ text: currentText });
+  currentParts.push({ text: text });
   safeContents.push({ role: 'user', parts: currentParts });
 
   try {
-      updateStatus("Scanning Google for approved models...", "var(--sapphire)");
+      updateStatus("Locating fastest model...", "var(--sapphire)");
       
       const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
       const listData = await listRes.json();
-      
-      if (listData.error) throw new Error(`Google API Key Error: ${listData.error.message}`);
-      if (!listData.models || listData.models.length === 0) throw new Error("Google says your key has zero models enabled.");
+      if (listData.error) throw new Error(listData.error.message);
 
       const validModels = listData.models.filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
-      if (validModels.length === 0) throw new Error("Google says your key has no text-generation models enabled.");
-
-      let bestModel = validModels.find(m => m.name.includes('1.5-flash')) || 
-                      validModels.find(m => m.name.includes('2.0-flash')) || 
-                      validModels.find(m => m.name.includes('flash')) || 
-                      validModels[0];
-
+      let bestModel = validModels.find(m => m.name.includes('1.5-flash')) || validModels[0];
       let targetModel = bestModel.name.replace('models/', '');
-      updateStatus(`Connected to ${targetModel}...`, "var(--sapphire)");
 
       let targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`;
       
+      // V14 MAGIC: Inject Google Search Grounding if Online Mode is active
+      const fetchPayload = {
+          contents: safeContents,
+          generationConfig: { maxOutputTokens: 8192 } // Maximize answer length!
+      };
+
+      if (mode === 'online') {
+          fetchPayload.tools = [{ googleSearch: {} }];
+          updateStatus(`Searching live web with ${targetModel}...`, "var(--sapphire)");
+      } else {
+          updateStatus(`Connected to ${targetModel} (Offline)...`, "var(--sapphire)");
+      }
+
       const fetchOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: safeContents })
+          body: JSON.stringify(fetchPayload)
       };
       
       let data = null;
@@ -1053,9 +777,8 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
              data = await res.json();
              if (data.error) {
                  if (data.error.code === 429) {
-                     updateStatus(`Google Free Tier limit hit. Auto-waiting 10s...`, "var(--amber)");
+                     updateStatus(`Google Rate Limit Hit. Auto-waiting 10s...`, "var(--amber)");
                      await sleep(10000);
-                     updateStatus(`Retrying...`, "var(--amber)");
                      continue;
                  }
                  throw new Error(data.error.message);
@@ -1063,14 +786,13 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
              break;
          } catch(e) {
              if(i === retries - 1) throw e;
-             await sleep(2000);
          }
       }
 
-      if (!data || data.error) throw new Error(data ? data.error.message : "Failed to connect to Google.");
+      if (data.error) throw new Error(data.error.message);
 
-      rmTyping();
       let reply = data.candidates[0].content.parts[0].text || '';
+      
       let triggerExcel = false;
       if (reply.includes('[GENERATE_EXCEL]')) {
           triggerExcel = true;
@@ -1082,91 +804,42 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
       if (triggerExcel) exportMarkdownTableToExcel(reply);
 
   } catch (err) {
-      rmTyping();
-      const fatalErr = '⚠️ ' + err.message;
-      msgs.push({role:'assistant', content:fatalErr});
-      appendMsg('assistant', fatalErr);
+      appendMsg('assistant', '⚠️ Error: ' + err.message + '\n\n*(Note: If you are seeing quota limits, you must add billing to your Google AI Studio account to unlock unlimited questions).*');
   }
   
   attachments=[]; renderPreviews();
-  setLoading(false);
+  isLoading=false;
+  document.getElementById('send-btn').disabled=false;
+  updateStatus('Ready · '+(mode==='offline'?'Offline':'Online Search Enabled'), mode==='offline'?'var(--jade)':'var(--sapphire)');
 }
 
 function askQ(q){switchView('chat');document.getElementById('chat-input').value=q;sendMsg();}
-function fillIn(t){document.getElementById('chat-input').value=t;document.getElementById('chat-input').focus();}
-function clearChat(){msgs=[];document.getElementById('messages').innerHTML='';document.getElementById('welcome').style.display='';}
-function generateReport(){askQ(`Generate a highly detailed ${fw} compliance and audit checklist covering the top 10 most critical standards. Include exact citations, common audit findings, and give it to me in an Excel file.`);}
+function clearChat(){msgs=[];document.getElementById('messages').innerHTML='';document.getElementById('welcome').style.display='flex';}
 
 document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
-document.getElementById('chat-input').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px';});
 
-function fmt(n,d=2){return Number(n.toFixed(d)).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d});}
+// Simple Calculator Logic
+function fmt(n){return Number(n.toFixed(2)).toLocaleString('en-IN');}
 function runCalc(){
-  const pv0=parseFloat(document.getElementById('c-pv').value)||50;
+  const pv=parseFloat(document.getElementById('c-pv').value)||50;
   const term=parseInt(document.getElementById('c-term').value)||5;
   const rate=(parseFloat(document.getElementById('c-rate').value)||8)/100;
-  const ptype=document.getElementById('c-ptype').value;
-  const idc=parseFloat(document.getElementById('c-idc').value)||0;
-  const inc=parseFloat(document.getElementById('c-inc').value)||0;
-  const aro=parseFloat(document.getElementById('c-aro').value)||0;
-  const dep=document.getElementById('c-dep').value;
-  const rouCost=pv0+idc-inc+aro;
-  let ann=ptype==='arrear'?pv0*rate/(1-Math.pow(1+rate,-term)):pv0*rate/((1-Math.pow(1+rate,-term))*(1+rate));
-  let bal=pv0,rou=rouCost,tI=0,tP=0,tC=0;
-  const rows=[];
-  for(let y=1;y<=term;y++){
-    const i=bal*rate,p=ann-i,cb=Math.max(0,bal-p);
-    let d=dep==='sl'?rouCost/term:rou*(2/term);
-    rou=Math.max(0,rou-d);tI+=i;tP+=p;tC+=d+i;
-    rows.push({y,ob:bal,i,ann,p,cb,rouBV:rou,charge:d+i,d});bal=cb;
-  }
-  const std=fw==='US GAAP'?'ASC 842':fw==='IND AS'?'IND AS 116':'IFRS 16';
   document.getElementById('r-grid').innerHTML=`
-    <div class="r-card"><div class="r-l">ROU Asset — Day 1</div><div class="r-v">₹${fmt(rouCost)}L</div><div class="r-s">${std} §24</div></div>
-    <div class="r-card"><div class="r-l">Lease Liability — Day 1</div><div class="r-v">₹${fmt(pv0)}L</div><div class="r-s">At IBR / implicit rate</div></div>
-    <div class="r-card"><div class="r-l">Annual Payment</div><div class="r-v">₹${fmt(ann)}L</div><div class="r-s">${ptype==='arrear'?'In arrear':'In advance'}</div></div>
-    <div class="r-card"><div class="r-l">Total Interest</div><div class="r-v">₹${fmt(tI)}L</div><div class="r-s">Over ${term} years</div></div>`;
-  const y1=rows[0];
-  document.getElementById('je-sec').innerHTML=`
-    <div class="je-card">
-      <div class="je-hd"><div class="je-t">Day 1 commencement</div><div class="je-rt">${std} §22</div></div>
-      <div class="je-row"><span class="jdr">Dr &nbsp;Right-of-use asset</span><span class="jamt pos">₹${fmt(rouCost)}L</span></div>
-      <div class="je-row"><span class="jcr">Cr &nbsp;Lease liability</span><span class="jamt neg">₹${fmt(pv0)}L</span></div>
-    </div>`;
-  let tb='';rows.forEach(r=>{tb+=`<tr><td>Year ${r.y}</td><td>${fmt(r.ob)}</td><td class="pos">${fmt(r.i)}</td><td>${fmt(r.ann)}</td><td>${fmt(r.p)}</td><td>${fmt(r.cb)}</td><td class="${r.rouBV>0?'neu':'neg'}">${fmt(r.rouBV)}</td><td class="neg">${fmt(r.charge)}</td></tr>`;});
-  document.getElementById('am-body').innerHTML=tb;
-}
-function calcToChat(){
-  const pv=document.getElementById('c-pv').value,term=document.getElementById('c-term').value,rate=document.getElementById('c-rate').value;
-  const std=fw==='US GAAP'?'ASC 842':fw==='IND AS'?'IND AS 116':'IFRS 16';
-  askQ(`Lease parameters under ${fw} (${std}): PV ₹${pv} Lakhs, ${term}-year term, ${rate}% IBR. Provide the full charterholder-level accounting treatment, including initial recognition, subsequent measurement, financial statement impact, and output the amortisation schedule as an Excel file.`);
+    <div class="r-card"><div class="r-l">Lease Liability</div><div class="r-v">₹${fmt(pv)}L</div></div>
+    <div class="r-card"><div class="r-l">Term</div><div class="r-v">${term} Years</div></div>
+    <div class="r-card"><div class="r-l">Rate</div><div class="r-v">${rate*100}%</div></div>`;
 }
 
+// File uploads
 let attachments=[];
 function renderPreviews(){
   const el=document.getElementById('attach-preview');
-  if(!attachments.length){el.innerHTML='';return;}
-  el.innerHTML=attachments.map((a,i)=>{
-    const icon=a.type==='pdf'?'📄':a.type==='image'?'🖼️':'🔗';
-    const cls=a.type==='pdf'?'pdf':a.type==='image'?'img':'link';
-    const nm=a.name.length>22?a.name.slice(0,20)+'…':a.name;
-    return `<div class="ap-item ${cls}"><span class="ap-icon">${icon}</span><span class="ap-name">${esc(nm)}</span><span class="ap-rm" onclick="removeAttach(${i})">×</span></div>`;
-  }).join('');
+  el.innerHTML=attachments.map((a,i)=>`<div class="ap-item img"><span class="ap-name">${a.name}</span><span class="ap-rm" onclick="attachments.splice(${i},1);renderPreviews()">×</span></div>`).join('');
 }
-function removeAttach(i){attachments.splice(i,1);renderPreviews();}
-function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-async function handleFilePDF(inp){const file=inp.files[0]; if(!file)return;const data=await toBase64(file);attachments.push({type:'pdf',name:file.name,data,mediaType:'application/pdf'});renderPreviews(); inp.value='';}
-async function handleFileImg(inp){const file=inp.files[0]; if(!file)return;const mt=file.type||'image/jpeg';const data=await toBase64(file);attachments.push({type:'image',name:file.name,data,mediaType:mt});renderPreviews(); inp.value='';}
-function openLinkModal(){document.getElementById('link-modal').classList.add('open');setTimeout(()=>document.getElementById('link-input').focus(),80);}
-function closeLinkModal(){document.getElementById('link-modal').classList.remove('open');document.getElementById('link-input').value='';}
-function confirmLink(){const v=document.getElementById('link-input').value.trim();if(!v)return;let url=v; try{new URL(url);}catch{url='https://'+url;}const nm=url.replace(/^https?:\/\//,'').split('/')[0];attachments.push({type:'link',name:nm,url});renderPreviews(); closeLinkModal();}
-function googleSearch(){const q=document.getElementById('chat-input').value.trim()||'IFRS accounting standards';window.open('https://www.google.com/search?q='+encodeURIComponent(q+' site:ifrs.org OR site:mca.gov.in OR site:fasb.org'),'_blank');}
-let camStream=null;
-async function openCamera(){try{camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});document.getElementById('cam-video').srcObject=camStream;document.getElementById('cam-modal').classList.add('open');}catch{alert('Camera not available or permission denied.');}}
-function closeCamera(){if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}document.getElementById('cam-modal').classList.remove('open');}
-function snapPhoto(){const v=document.getElementById('cam-video'),c=document.getElementById('cam-canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);const data=c.toDataURL('image/jpeg',0.85).split(',')[1];attachments.push({type:'image',name:'camera-photo.jpg',data,mediaType:'image/jpeg'});renderPreviews(); closeCamera();}
+async function handleFilePDF(inp){const file=inp.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=> { attachments.push({type:'pdf',name:file.name,data:r.result.split(',')[1],mediaType:'application/pdf'}); renderPreviews(); }; r.readAsDataURL(file); inp.value='';}
+async function handleFileImg(inp){const file=inp.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=> { attachments.push({type:'image',name:file.name,data:r.result.split(',')[1],mediaType:file.type||'image/jpeg'}); renderPreviews(); }; r.readAsDataURL(file); inp.value='';}
 
-// Note: Initialization is now triggered by completeSetup() instead of instantly.
+runCalc();
 </script>
 </body>
 </html>
