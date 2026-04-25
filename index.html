@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v6.0 — Elite Charterholder Intelligence</title>
+<title>OctaveAI v1.3.0 — Elite Charterholder Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -354,7 +354,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v6.0</span></div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v7.0</span></div>
     <div class="logo-sub">Elite Charterholder Intelligence</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
@@ -813,6 +813,13 @@ function fmtReply(t){
   return h.replace(/<p><\/p>/g,'');
 }
 
+function updateStatus(text, color='var(--amber)') {
+    const txtEl = document.getElementById('s-txt');
+    const dotEl = document.getElementById('s-dot');
+    if(txtEl) txtEl.textContent = text;
+    if(dotEl) dotEl.style.background = color;
+}
+
 function appendMsg(role,content){
   hideWelcome();
   const wrap=document.getElementById('messages');
@@ -839,11 +846,57 @@ function rmTyping(){const t=document.getElementById('typ');if(t)t.remove();}
 function setLoading(v){
   isLoading=v;
   document.getElementById('send-btn').disabled=v;
-  document.getElementById('s-dot').style.background=v?'var(--amber)':(mode==='offline'?'var(--jade)':'var(--sapphire)');
-  document.getElementById('s-txt').textContent=v?'Analysing…':('Ready · '+(mode==='offline'?'Offline':'Online')+' mode');
+  if(v) {
+      updateStatus('Analysing...', 'var(--amber)');
+  } else {
+      updateStatus('Ready · '+(mode==='offline'?'Offline':'Online')+' mode', mode==='offline'?'var(--jade)':'var(--sapphire)');
+  }
 }
 
-// THE ELITE BULLETPROOF CHARTERHOLDER ENGINE (2026 API SAFE)
+// ═══════════════════════════════════════════════════════════════
+// THE AUTO-RETRY ENGINE (HANDLES 429 QUOTA ERRORS PERFECTLY)
+// ═══════════════════════════════════════════════════════════════
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function fetchWithRetry(url, options, maxRetries = 3) {
+    let lastErrorMsg = "";
+    
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            // Check if Google is telling us to slow down (Quota Exceeded)
+            if (data.error && data.error.code === 429) {
+                // Automatically wait: 15s, 30s, 45s...
+                const waitTime = (i + 1) * 15000; 
+                console.warn(`Quota exceeded. Retrying in ${waitTime/1000} seconds...`);
+                updateStatus(`Server busy... Auto-retrying in ${waitTime/1000}s`, 'var(--amber)');
+                await sleep(waitTime);
+                updateStatus('Resubmitting analysis...', 'var(--amber)');
+                continue; // Loop back and try again
+            }
+            
+            // If it's a different error, break the loop
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+            
+            // Success! Return the data
+            return data;
+            
+        } catch (error) {
+            lastErrorMsg = error.message;
+            // If it's a network error, try again. Otherwise, stop.
+            if (!error.message.toLowerCase().includes("fetch")) {
+                throw error;
+            }
+            await sleep(3000);
+        }
+    }
+    throw new Error(`Google Server Limit Reached. Please wait 1 minute and try again. Last error: ${lastErrorMsg}`);
+}
+
 async function sendMsg(){
   const inp=document.getElementById('chat-input');
   const text=inp.value.trim();
@@ -859,7 +912,7 @@ async function sendMsg(){
 
   setLoading(true); showTyping();
 
-  const systemBase=`You are OctaveAI v6.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
+  const systemBase=`You are OctaveAI v7.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
 RESPONSE MODE: ${mode}
 
@@ -871,7 +924,7 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
   const safeContents = [
       { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v6.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
+      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v7.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
@@ -895,8 +948,8 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
   const aiMode = document.getElementById('ai-model-selector').value;
 
   try {
-      // Step 1: DYNAMIC MODEL FETCH (2026 STANDARD) - Asks Google what models exist today!
-      let targetModel = 'gemini-2.5-flash'; // 2026 safe default
+      // Step 1: DYNAMIC MODEL FETCH
+      let targetModel = 'gemini-2.5-flash'; 
       try {
           const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
           const listData = await listRes.json();
@@ -915,19 +968,15 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
           console.warn("Model list fetch failed, defaulting to 2.5-flash.");
       }
 
-      // Step 2: EXECUTE API CALL WITH SAFE PAYLOAD
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`, {
+      // Step 2: EXECUTE API CALL WITH AUTO-RETRY
+      const fetchOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contents: safeContents })
-      });
+      };
       
-      const data = await res.json();
+      const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`, fetchOptions);
       
-      if (data.error) {
-          throw new Error(data.error.message);
-      }
-
       rmTyping();
       let reply = data.candidates[0].content.parts[0].text || '';
       let triggerExcel = false;
@@ -942,7 +991,12 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
   } catch (err) {
       rmTyping();
-      const fatalErr = 'Connection Error: ' + err.message;
+      // If it still fails after all retries, tell the user politely
+      let errorMsg = err.message;
+      if(errorMsg.includes("Quota")) {
+         errorMsg = "Google API Free Tier limit reached. The servers are extremely busy right now. Please wait 60 seconds and try asking again.";
+      }
+      const fatalErr = '⚠️ ' + errorMsg;
       msgs.push({role:'assistant', content:fatalErr});
       appendMsg('assistant', fatalErr);
   }
