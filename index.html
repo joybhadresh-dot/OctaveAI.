@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v5.0 — Elite Charterholder Intelligence</title>
+<title>OctaveAI v6.0 — Elite Charterholder Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -354,11 +354,10 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v5.0</span></div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v6.0</span></div>
     <div class="logo-sub">Elite Charterholder Intelligence</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
-
   <div class="mode-box">
     <div class="mode-label">Response System</div>
     <div class="mode-toggle">
@@ -371,7 +370,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     </div>
     <div class="mode-desc" id="mode-desc">Using built-in knowledge base — instant responses, no API needed for standards</div>
   </div>
-
   <div class="fw-switcher">
     <div class="sec-label">Active Framework</div>
     <div class="fw-tabs">
@@ -381,7 +379,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     </div>
     <div class="fw-desc" id="fw-desc">IASB · International Financial Reporting Standards</div>
   </div>
-
   <div class="nav-scroll">
     <div class="nav-section-label">Workspace</div>
     <div class="nav-item active" id="nav-chat" onclick="switchView('chat')">
@@ -396,11 +393,9 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
       <div class="ni-box"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="3" height="10" rx="1"/><rect x="5" y="2" width="3" height="10" rx="1"/><rect x="9" y="2" width="4" height="10" rx="1"/></svg></div>
       Standards Library
     </div>
-
     <div class="nav-section-label">Quick Ask</div>
     <div id="quick-nav"></div>
   </div>
-
   <div class="status-area">
     <div class="s-row">
       <div class="s-dot jade" id="s-dot"></div>
@@ -441,7 +436,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     </div>
     <div class="input-area">
       <div class="chips-row" id="chips-row"></div>
-      
       <div class="in-row">
         <div class="ta-wrap">
           <div class="attach-row">
@@ -462,11 +456,9 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
               <span class="tip">Add Link</span>
             </button>
           </div>
-          
           <div class="attach-preview" id="attach-preview"></div>
           <textarea id="chat-input" rows="1" placeholder="Ask a complex standard query, request an Excel sheet, or upload a file…"></textarea>
         </div>
-        
         <div class="action-col">
           <select id="ai-model-selector" class="model-select" title="Select AI Speed & Reasoning Level">
             <option value="flash">⚡ Normal (Fast)</option>
@@ -476,7 +468,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
             <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
-        
       </div>
     </div>
     
@@ -498,7 +489,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
         </div>
       </div>
     </div>
-
     <div class="cam-modal" id="cam-modal">
       <video id="cam-video" autoplay playsinline></video>
       <canvas id="cam-canvas"></canvas>
@@ -570,13 +560,9 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 // ═══════════════════════════════════════════════════════════════
 // NEW API KEY HARDCODED 
 // ═══════════════════════════════════════════════════════════════
-const GEMINI_API_KEY = "AIzaSyAjxVJ7o6JRkPjR8rSNuChAlvH3e5WRqA8";
+const GEMINI_API_KEY = "AIzaSyB4_r4jG63sZ6SZSmtiv1patmzFS_dWiXs";
 
-// ═══════════════════════════════════════════════════════════════
-// ██ MASSIVELY EXPANDED EMBEDDED KNOWLEDGE BASE 
-// ═══════════════════════════════════════════════════════════════
 const KB = {
-/* IFRS / IAS */
 'IFRS 10': `IFRS 10 — Consolidated Financial Statements\nOVERVIEW: Establishes a single control model. An investor controls an investee when it is exposed, or has rights, to variable returns from its involvement and has the ability to affect those returns through its power over the investee.\n[JUDGEMENT REQUIRED] Assessing 'de facto' control and identifying the principal vs agent.`,
 'IFRS 13': `IFRS 13 — Fair Value Measurement\nOVERVIEW: Defines fair value as an exit price (price to sell an asset or transfer a liability in an orderly transaction). Establishes a 3-level fair value hierarchy (Level 1: Quoted, Level 2: Observable, Level 3: Unobservable).`,
 'IFRS 18': `IFRS 18 — Presentation and Disclosure in Financial Statements (effective Jan 2027, replaces IAS 1)\nOVERVIEW: IFRS 18 mandates a restructured Statement of Profit or Loss with THREE mandatory categories of income and expenses:\n1. Operating\n2. Investing\n3. Financing`,
@@ -587,16 +573,12 @@ const KB = {
 'IAS 2': `IAS 2 — Inventories\nOVERVIEW: Inventories are measured at the lower of cost and net realisable value (NRV). Permitted cost formulas are FIFO or weighted average. LIFO is strictly prohibited under IAS 2.`,
 'IAS 7': `IAS 7 — Statement of Cash Flows\nOVERVIEW: Requires classification into Operating, Investing, and Financing activities. Operating cash flows can be presented using the direct or indirect method.`,
 'IAS 12': `IAS 12 — Income Taxes\nTEMPORARY DIFFERENCE APPROACH:\nDTL: Taxable temporary difference × tax rate\nDTA: Deductible temporary difference × tax rate\n[JUDGEMENT REQUIRED] Probable future taxable profit to utilize DTA.`,
-
-/* IND AS */
 'IND AS 1': `IND AS 1 — Presentation of Financial Statements\nOVERVIEW: Similar to IAS 1. However, Schedule III of the Companies Act, 2013 heavily governs the exact formats and disclosures required for Indian companies.`,
 'IND AS 2': `IND AS 2 — Inventories\nOVERVIEW: Converged with IAS 2. Measured at lower of cost or NRV. FIFO or weighted average only.`,
 'IND AS 7': `IND AS 7 — Statement of Cash Flows\nOVERVIEW: Converged with IAS 7. Note: For listed entities in India, SEBI strictly mandates the use of the Indirect Method for operating cash flows.`,
 'IND AS 116': `IND AS 116 — Leases\nSUBSTANTIALLY CONVERGED WITH IFRS 16. Key differences:\n1. PORTFOLIO APPROACH explicitly permitted.\n2. SCHEDULE III presentation differences.\n[JUDGEMENT REQUIRED] IBR determination using Indian market rates.`,
 'IND AS 115': `IND AS 115 — Revenue from Contracts with Customers\nREAL ESTATE SECTOR (India challenge):\nUnder-construction residential units — typically POINT IN TIME (on handing over possession) UNLESS buyer controls asset or enforceable right to payment exists (must assess RERA implications).`,
 'IND AS 109': `IND AS 109 — Financial Instruments\nINDIA-SPECIFIC: RBI Prudential Norms interact with IND AS 109 ECL. Where RBI provision > IND AS ECL provision → higher provision required. Difference held in Impairment Reserve.`,
-
-/* US GAAP */
 'ASC 210': `ASC 210 — Balance Sheet\nOVERVIEW: Provides guidelines for classification of assets and liabilities as current vs. non-current. Heavily rules-based operating cycle definitions.`,
 'ASC 230': `ASC 230 — Statement of Cash Flows\nOVERVIEW: US GAAP requires interest paid, interest received, and dividends received to be classified as Operating Cash Flows. Dividends paid are Financing. (Unlike IFRS which allows choices).`,
 'ASC 310': `ASC 310 — Receivables\nOVERVIEW: Covers accounting for loans and trade receivables. Interacts heavily with ASC 326 (CECL) for impairment.`,
@@ -613,7 +595,6 @@ const FW_META={
   'US GAAP':{desc:'FASB · ASC Codification · United States',body:'FASB · ASC · United States',calcT:'ASC 842 — Lease Calculator',calcS:'Finance & operating lease · Dual model · ASC 842'},
 };
 
-// Expanded Standard Definitions for the Library UI
 const STDS = {
 'IFRS':[
   {code:'IFRS 10',title:'Consolidated Financial Statements',desc:'Single control model. Power, exposure, and link between power and returns.',tags:['key']},
@@ -681,7 +662,6 @@ const QUICK_NAV={
   'US GAAP':[{l:'ASC 842 — Leases',q:'Explain ASC 842 dual model.'},{l:'ASC 810 — Consolidations',q:'Explain ASC 810 VIE.'}],
 };
 
-// State
 let fw='IFRS', mode='online', msgs=[], isLoading=false, libTab='IFRS';
 
 function setMode(m){
@@ -789,7 +769,6 @@ function closeSidebar(){document.getElementById('sidebar').classList.remove('ope
 function nowT(){return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}
 function hideWelcome(){const w=document.getElementById('welcome');if(w)w.style.display='none';}
 
-// EXCEL GENERATOR FUNCTION
 function exportMarkdownTableToExcel(text) {
     const lines = text.split('\n');
     const tableData = [];
@@ -864,9 +843,7 @@ function setLoading(v){
   document.getElementById('s-txt').textContent=v?'Analysing…':('Ready · '+(mode==='offline'?'Offline':'Online')+' mode');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// THE ELITE BULLETPROOF CHARTERHOLDER ENGINE (UNIVERSAL API SAFE)
-// ═══════════════════════════════════════════════════════════════
+// THE ELITE BULLETPROOF CHARTERHOLDER ENGINE (2026 API SAFE)
 async function sendMsg(){
   const inp=document.getElementById('chat-input');
   const text=inp.value.trim();
@@ -877,27 +854,24 @@ async function sendMsg(){
   const attachNote=attachments.length?'\n\n[Attached: '+attachments.map(a=>a.type==='link'?'URL: '+a.url:a.name).join(', ')+']':'';
   appendMsg('user',text+(attachNote?'\n'+attachNote.trim():''));
   
-  let currentText = text + (attachNote?'\n'+attachNote.trim():'') + '\n\n[Framework context: ' + fw + ']';
+  let currentText = text + (attachNote?'\n'+attachNote.trim():'') + '\n\n[Context: Answer according to ' + fw + ']';
   msgs.push({ role: 'user', content: currentText });
 
   setLoading(true); showTyping();
 
-  const systemBase=`You are OctaveAI v5.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
+  const systemBase=`You are OctaveAI v6.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
 RESPONSE MODE: ${mode}
 
 CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
-1. EXHAUSTIVE DEPTH: Analyze the query with extreme technical precision. Do not give surface-level answers. Provide a comprehensive memo.
+1. EXHAUSTIVE DEPTH: Analyze the query with extreme technical precision. Provide a comprehensive memo.
 2. STRUCTURE: Start with an "Executive Summary", followed by "Technical Analysis", "Journal Entries (Dr/Cr)", "Financial Statement Impact (BS, IS, CF, Ratios)", and "Audit & Compliance Implications".
-3. CITATIONS: You must cite exact standard paragraph numbers (e.g., IFRS 15.31, ASC 842-20-25, IND AS 116.15).
-4. JOURNAL ENTRIES: Provide detailed accounting entries with accurate numbers if a scenario is given.
-5. PROFESSIONAL TONE: Use formal, highly advanced financial terminology.
-6. EXCEL GENERATION: If the user asks for an Excel file, table, schedule, or calculation, format it perfectly as a Markdown table and append exactly "[GENERATE_EXCEL]" at the very end of your response.`;
+3. CITATIONS: You must cite exact standard paragraph numbers (e.g., IFRS 15.31, ASC 842-20-25).
+4. EXCEL GENERATION: If the user asks for an Excel file, table, or schedule, format it perfectly as a Markdown table and append exactly "[GENERATE_EXCEL]" at the very end of your response.`;
 
-  // We are stripping the complex payload format and using pure "contents" history to make it 100% immune to API version crashes.
   const safeContents = [
       { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v5.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
+      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v6.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
@@ -907,7 +881,6 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
       });
   }
 
-  // Handle attachments safely
   let currentParts = [];
   for(const a of attachments){
     if(a.type==='pdf' || a.type==='image'){
@@ -919,51 +892,43 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
   currentParts.push({ text: currentText });
   safeContents.push({ role: 'user', parts: currentParts });
 
-  const payload = {
-    contents: safeContents,
-    generationConfig: { maxOutputTokens: 8192, temperature: 0.15 } 
-  };
+  const aiMode = document.getElementById('ai-model-selector').value;
 
   try {
-      // Step 1: Dynamically find the best allowed model to PREVENT "Model not found"
-      let targetModel = 'gemini-1.5-flash'; // safety default
+      // Step 1: DYNAMIC MODEL FETCH (2026 STANDARD) - Asks Google what models exist today!
+      let targetModel = 'gemini-2.5-flash'; // 2026 safe default
       try {
-          const listRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + GEMINI_API_KEY);
+          const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
           const listData = await listRes.json();
           if (listData.models) {
               const validModels = listData.models.filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
-              
-              const aiMode = document.getElementById('ai-model-selector').value;
               let found;
               if (aiMode === 'pro') {
-                  found = validModels.find(m => m.name.includes('1.5-pro')) || validModels.find(m => m.name.includes('1.5-flash'));
+                  found = validModels.find(m => m.name.includes('2.5-pro')) || validModels.find(m => m.name.includes('2.0-pro')) || validModels.find(m => m.name.includes('pro'));
               } else {
-                  found = validModels.find(m => m.name.includes('1.5-flash')) || validModels.find(m => m.name.includes('1.0-pro'));
+                  found = validModels.find(m => m.name.includes('2.5-flash')) || validModels.find(m => m.name.includes('2.0-flash')) || validModels.find(m => m.name.includes('flash'));
               }
-              
-              if (!found) found = validModels[0]; // Desperation fallback to whatever works
-              
-              if (found) targetModel = found.name.replace('models/', '');
+              if (!found) found = validModels[0];
+              targetModel = found.name.replace('models/', '');
           }
       } catch(e) {
-          console.warn("Could not list models, continuing with default.", e);
+          console.warn("Model list fetch failed, defaulting to 2.5-flash.");
       }
 
-      // Step 2: Post to the discovered model
+      // Step 2: EXECUTE API CALL WITH SAFE PAYLOAD
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ contents: safeContents })
       });
       
       const data = await res.json();
-      
-      rmTyping();
       
       if (data.error) {
           throw new Error(data.error.message);
       }
 
+      rmTyping();
       let reply = data.candidates[0].content.parts[0].text || '';
       let triggerExcel = false;
       if (reply.includes('[GENERATE_EXCEL]')) {
@@ -973,12 +938,11 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
       msgs.push({role:'assistant', content:reply});
       appendMsg('assistant', reply);
-      
-      if (triggerExcel) { exportMarkdownTableToExcel(reply); }
+      if (triggerExcel) exportMarkdownTableToExcel(reply);
 
   } catch (err) {
       rmTyping();
-      const fatalErr = 'API Key Error: ' + err.message + ' (Please ensure your API key has Google Generative Language permissions active).';
+      const fatalErr = 'Connection Error: ' + err.message;
       msgs.push({role:'assistant', content:fatalErr});
       appendMsg('assistant', fatalErr);
   }
@@ -995,9 +959,6 @@ function generateReport(){askQ(`Generate a highly detailed ${fw} compliance and 
 document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
 document.getElementById('chat-input').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px';});
 
-// ═══════════════════════════════════════════════════════════
-// CALCULATOR
-// ═══════════════════════════════════════════════════════════
 function fmt(n,d=2){return Number(n.toFixed(d)).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d});}
 function runCalc(){
   const pv0=parseFloat(document.getElementById('c-pv').value)||50;
