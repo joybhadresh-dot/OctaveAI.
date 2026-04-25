@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v1.3.0 — Elite Charterholder Intelligence</title>
+<title>OctaveAI v8.0 — Speed Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -354,7 +354,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v7.0</span></div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v8.0</span></div>
     <div class="logo-sub">Elite Charterholder Intelligence</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
@@ -461,8 +461,8 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
         </div>
         <div class="action-col">
           <select id="ai-model-selector" class="model-select" title="Select AI Speed & Reasoning Level">
-            <option value="flash">⚡ Normal (Fast)</option>
-            <option value="pro" selected>🚀 Pro (Deep Logic)</option>
+            <option value="flash" selected>⚡ Normal (Fast)</option>
+            <option value="pro">🚀 Pro (Deep Logic)</option>
           </select>
           <button class="send-btn" id="send-btn" onclick="sendMsg()">
             <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -854,11 +854,11 @@ function setLoading(v){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// THE AUTO-RETRY ENGINE (HANDLES 429 QUOTA ERRORS PERFECTLY)
+// THE AUTO-RETRY ENGINE (SPEED OPTIMIZED)
 // ═══════════════════════════════════════════════════════════════
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-async function fetchWithRetry(url, options, maxRetries = 3) {
+async function fetchWithRetry(url, options, maxRetries = 2) {
     let lastErrorMsg = "";
     
     for (let i = 0; i < maxRetries; i++) {
@@ -868,26 +868,22 @@ async function fetchWithRetry(url, options, maxRetries = 3) {
             
             // Check if Google is telling us to slow down (Quota Exceeded)
             if (data.error && data.error.code === 429) {
-                // Automatically wait: 15s, 30s, 45s...
-                const waitTime = (i + 1) * 15000; 
+                const waitTime = 10000; // Only wait 10 seconds now
                 console.warn(`Quota exceeded. Retrying in ${waitTime/1000} seconds...`);
                 updateStatus(`Server busy... Auto-retrying in ${waitTime/1000}s`, 'var(--amber)');
                 await sleep(waitTime);
                 updateStatus('Resubmitting analysis...', 'var(--amber)');
-                continue; // Loop back and try again
+                continue; 
             }
             
-            // If it's a different error, break the loop
             if (data.error) {
                 throw new Error(data.error.message);
             }
             
-            // Success! Return the data
             return data;
             
         } catch (error) {
             lastErrorMsg = error.message;
-            // If it's a network error, try again. Otherwise, stop.
             if (!error.message.toLowerCase().includes("fetch")) {
                 throw error;
             }
@@ -912,7 +908,7 @@ async function sendMsg(){
 
   setLoading(true); showTyping();
 
-  const systemBase=`You are OctaveAI v7.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
+  const systemBase=`You are OctaveAI v8.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
 RESPONSE MODE: ${mode}
 
@@ -924,7 +920,7 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
   const safeContents = [
       { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v7.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
+      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v8.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
@@ -948,27 +944,10 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
   const aiMode = document.getElementById('ai-model-selector').value;
 
   try {
-      // Step 1: DYNAMIC MODEL FETCH
-      let targetModel = 'gemini-2.5-flash'; 
-      try {
-          const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
-          const listData = await listRes.json();
-          if (listData.models) {
-              const validModels = listData.models.filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
-              let found;
-              if (aiMode === 'pro') {
-                  found = validModels.find(m => m.name.includes('2.5-pro')) || validModels.find(m => m.name.includes('2.0-pro')) || validModels.find(m => m.name.includes('pro'));
-              } else {
-                  found = validModels.find(m => m.name.includes('2.5-flash')) || validModels.find(m => m.name.includes('2.0-flash')) || validModels.find(m => m.name.includes('flash'));
-              }
-              if (!found) found = validModels[0];
-              targetModel = found.name.replace('models/', '');
-          }
-      } catch(e) {
-          console.warn("Model list fetch failed, defaulting to 2.5-flash.");
-      }
+      // MASSIVE SPEED UP: Removed the dynamic model check that burned your quota.
+      // We are hardcoding it directly to the fastest, newest models available.
+      const targetModel = (aiMode === 'pro') ? 'gemini-1.5-pro' : 'gemini-1.5-flash';
 
-      // Step 2: EXECUTE API CALL WITH AUTO-RETRY
       const fetchOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -991,10 +970,9 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
   } catch (err) {
       rmTyping();
-      // If it still fails after all retries, tell the user politely
       let errorMsg = err.message;
       if(errorMsg.includes("Quota")) {
-         errorMsg = "Google API Free Tier limit reached. The servers are extremely busy right now. Please wait 60 seconds and try asking again.";
+         errorMsg = "Google API Free Tier limit reached. Please wait 60 seconds and try asking again.";
       }
       const fatalErr = '⚠️ ' + errorMsg;
       msgs.push({role:'assistant', content:fatalErr});
