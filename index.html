@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v11.0 — Auto-Discovery Engine</title>
+<title>OctaveAI v12.0 — Final Engine</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -333,7 +333,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v11.0</span></div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v12.0</span></div>
     <div class="logo-sub">Elite Charterholder Intelligence</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
@@ -532,9 +532,6 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// NEW API KEY HARDCODED 
-// ═══════════════════════════════════════════════════════════════
 const GEMINI_API_KEY = "AIzaSyBwdCg2kWfnoS-7c2UwslsVRsbbQtUOmFo";
 
 const KB = {
@@ -829,7 +826,7 @@ function setLoading(v){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// V11 AUTO-DISCOVERY ENGINE
+// V12.0 THE FINAL ENGINE
 // ═══════════════════════════════════════════════════════════════
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -848,7 +845,7 @@ async function sendMsg(){
 
   setLoading(true); showTyping();
 
-  const systemBase=`You are OctaveAI v11.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
+  const systemBase=`You are OctaveAI v12.0, an elite Big 4 Technical Accounting Partner and CFA Charterholder.
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
 RESPONSE MODE: ${mode}
 
@@ -860,7 +857,7 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
 
   const safeContents = [
       { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v11.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
+      { role: 'model', parts: [{ text: `I understand completely. I am OctaveAI v12.0, an elite Technical Accounting Partner. I will provide exhaustive, charterholder-level analysis strictly using ${fw} standards, complete with exact paragraph citations, formatted journal entries, financial impacts, and audit implications.` }] }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
@@ -882,9 +879,9 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
   safeContents.push({ role: 'user', parts: currentParts });
 
   try {
-      updateStatus("Locating allowed models...", "var(--sapphire)");
+      updateStatus("Scanning Google for approved models...", "var(--sapphire)");
       
-      // 1. ASK GOOGLE EXACTLY WHAT MODELS THIS KEY CAN USE
+      // 1. GET THE APPROVED LIST FROM YOUR EXACT KEY
       const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
       const listData = await listRes.json();
       
@@ -903,17 +900,18 @@ CRITICAL INSTRUCTIONS FOR EVERY RESPONSE:
           throw new Error("Google says your key has no text-generation models enabled.");
       }
 
-      // Grab the absolute best available model mathematically
-      let selectedModel = validModels[0].name.replace('models/', '');
-      const bestFlash = validModels.find(m => m.name.includes('flash'));
-      if (bestFlash) {
-          selectedModel = bestFlash.name.replace('models/', '');
-      }
+      // Automatically select the best, valid flash model Google allows you to use
+      let bestModel = validModels.find(m => m.name.includes('1.5-flash')) || 
+                      validModels.find(m => m.name.includes('2.0-flash')) || 
+                      validModels.find(m => m.name.includes('flash')) || 
+                      validModels[0];
 
-      updateStatus(`Generating response via ${selectedModel}...`, "var(--sapphire)");
+      let targetModel = bestModel.name.replace('models/', '');
+      
+      updateStatus(`Connected to ${targetModel}...`, "var(--sapphire)");
 
       // 2. FETCH THE ACTUAL ANSWER
-      let targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`;
+      let targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`;
       
       const fetchOptions = {
           method: 'POST',
@@ -1050,3 +1048,4 @@ runCalc();
 </script>
 </body>
 </html>
+
