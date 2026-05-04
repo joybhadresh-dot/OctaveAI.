@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OctaveAI v14.0 — Live Web Edition</title>
+<title>OctaveAI v15.0 — OpenAI Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -362,8 +362,8 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
 
 <div class="sidebar" id="sidebar">
   <div class="logo-area">
-    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v14.0</span></div>
-    <div class="logo-sub">Live Web Edition</div>
+    <div class="logo"><span class="oc">Octave</span>AI<span class="v-badge">v15.0</span></div>
+    <div class="logo-sub">OpenAI Edition</div>
     <div class="cred-row"><span class="cred">CA</span><span class="cred">ACCA</span><span class="cred">CPA</span><span class="cred">CFA</span><span class="cred">FCA</span><span class="cred">CMA</span></div>
   </div>
   <div class="mode-box">
@@ -376,7 +376,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
         <div class="mode-dot"></div>Online Search
       </div>
     </div>
-    <div class="mode-desc" id="mode-desc">Web search enabled — AI searches Google for latest standards and news.</div>
+    <div class="mode-desc" id="mode-desc">OpenAI generation enabled.</div>
   </div>
   <div class="fw-switcher">
     <div class="sec-label">Active Framework</div>
@@ -425,7 +425,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
           <span class="fw-pill" id="fw-pill">IFRS</span>
           <span class="mode-pill online" id="mode-pill">🌐 Online</span>
         </div>
-        <div class="tb-sub" id="tb-sub">Enterprise accounting intelligence · Web search enabled</div>
+        <div class="tb-sub" id="tb-sub">Enterprise accounting intelligence · OpenAI Integration</div>
       </div>
     </div>
     <div class="tb-actions">
@@ -459,9 +459,12 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
             <button class="att-btn" onclick="document.getElementById('file-img').click()" title="Upload Image">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </button>
+            <button class="att-btn" onclick="document.getElementById('file-cam').click()" title="Use Camera">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </button>
           </div>
           <div class="attach-preview" id="attach-preview"></div>
-          <textarea id="chat-input" rows="1" placeholder="Ask a complex standard query, request an Excel sheet, or upload a file…"></textarea>
+          <textarea id="chat-input" rows="1" placeholder="Ask a complex standard query, request an Excel sheet, or upload an image…"></textarea>
         </div>
         <div class="action-col">
           <button class="send-btn" id="send-btn" onclick="sendMsg()">
@@ -473,6 +476,7 @@ table.am tfoot td{font-weight:600;background:var(--bg3);color:var(--gold-lt);bor
     
     <input type="file" id="file-pdf" accept=".pdf,application/pdf" style="display:none" onchange="handleFilePDF(this)">
     <input type="file" id="file-img" accept="image/*" style="display:none" onchange="handleFileImg(this)">
+    <input type="file" id="file-cam" accept="image/*" capture="environment" style="display:none" onchange="handleFileImg(this)">
   </div>
 
   <div id="view-calc" style="display:none;flex:1;overflow:hidden;">
@@ -562,15 +566,61 @@ function completeSetup() {
     document.getElementById('auth-gate').style.display = 'none';
     document.getElementById('main-app').style.display = 'flex';
     
-    setMode('online'); // Defaults to Online (Google Search capability)
+    setMode('online'); 
     setFW(initialFw);
     runCalc();
 }
 
 // ═══════════════════════════════════════════════════════════════
-// API KEY & FRAMEWORK DATA
+// OPENAI API KEY & KNOWLEDGE BASE INTEGRATION
 // ═══════════════════════════════════════════════════════════════
-const OpenAI API Key = "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";
+const OPENAI_API_KEY = "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";
+
+// Deep Knowledge Base containing summaries of all the core standards
+const KB = {
+  "IFRS 1": "IFRS 1 First-time Adoption of International Financial Reporting Standards: Ensures an entity's first IFRS financial statements contain high-quality information that is transparent, provides a suitable starting point, and can be generated at a cost not exceeding benefits.",
+  "IFRS 2": "IFRS 2 Share-based Payment: Specifies financial reporting when an entity undertakes a share-based payment transaction, including equity-settled and cash-settled share-based payment transactions.",
+  "IFRS 3": "IFRS 3 Business Combinations: Requires the acquisition method for each business combination, measuring identifiable assets acquired, liabilities assumed, and any non-controlling interest at their acquisition-date fair values.",
+  "IFRS 5": "IFRS 5 Non-current Assets Held for Sale and Discontinued Operations: Assets held for sale are measured at the lower of carrying amount and fair value less costs to sell, and depreciation ceases.",
+  "IFRS 6": "IFRS 6 Exploration for and Evaluation of Mineral Resources: Specifies financial reporting for the exploration and evaluation of mineral resources, allowing entities to develop an accounting policy for these assets.",
+  "IFRS 7": "IFRS 7 Financial Instruments: Disclosures: Requires entities to provide disclosures in their financial statements that enable users to evaluate the significance of financial instruments, and the nature and extent of risks arising from them.",
+  "IFRS 8": "IFRS 8 Operating Segments: Requires an entity to disclose information to enable users of its financial statements to evaluate the nature and financial effects of the business activities in which it engages and the economic environments in which it operates.",
+  "IFRS 9": "IFRS 9 Financial Instruments: Establishes principles for the financial reporting of financial assets and financial liabilities that will present relevant and useful information to users for their assessment of the amounts, timing and uncertainty of future cash flows.",
+  "IFRS 10": "IFRS 10 Consolidated Financial Statements: Establishes principles for the presentation and preparation of consolidated financial statements when an entity controls one or more other entities.",
+  "IFRS 11": "IFRS 11 Joint Arrangements: Establishes principles for financial reporting by entities that have an interest in arrangements that are controlled jointly (i.e., joint operations or joint ventures).",
+  "IFRS 12": "IFRS 12 Disclosure of Interests in Other Entities: Requires an entity to disclose information that enables users of its financial statements to evaluate the nature of, and risks associated with, its interests in other entities and the effects of those interests on its financial position, financial performance and cash flows.",
+  "IFRS 13": "IFRS 13 Fair Value Measurement: Defines fair value, sets out a framework for measuring fair value, and requires disclosures about fair value measurements.",
+  "IFRS 14": "IFRS 14 Regulatory Deferral Accounts: Specifies the financial reporting requirements for regulatory deferral account balances that arise when an entity provides goods or services to customers at a price or rate that is subject to rate regulation.",
+  "IFRS 15": "IFRS 15 Revenue from Contracts with Customers: Establishes the principles that an entity shall apply to report useful information to users of financial statements about the nature, amount, timing and uncertainty of revenue and cash flows arising from a contract with a customer.",
+  "IFRS 16": "IFRS 16 Leases: Sets out the principles for the recognition, measurement, presentation and disclosure of leases. The objective is to ensure that lessees and lessors provide relevant information in a manner that faithfully represents those transactions.",
+  "IFRS S1": "IFRS S1 General Requirements for Disclosure of Sustainability-related Financial Information: Requires an entity to disclose information about its sustainability-related risks and opportunities that is useful to primary users of general purpose financial reports in making decisions relating to providing resources to the entity.",
+  "IFRS S2": "IFRS S2 Climate-related Disclosures: Requires an entity to disclose information about its climate-related risks and opportunities that could reasonably be expected to affect the entity's cash flows, its access to finance or cost of capital over the short, medium or long term.",
+  "IAS 1": "IAS 1 Presentation of Financial Statements: Prescribes the basis for presentation of general purpose financial statements to ensure comparability. Requires a complete set including statement of financial position, comprehensive income, changes in equity, and cash flows.",
+  "IAS 2": "IAS 2 Inventories: Inventories are measured at the lower of cost and net realisable value (NRV). Cost formulas include FIFO or weighted average. LIFO is prohibited.",
+  "IAS 7": "IAS 7 Statement of Cash Flows: Requires cash flows to be classified into operating, investing, and financing activities.",
+  "IAS 8": "IAS 8 Accounting Policies, Changes in Accounting Estimates and Errors: Accounting policies are applied consistently. Voluntary changes are applied retrospectively. Changes in estimates are prospective. Prior period errors are corrected retrospectively.",
+  "IAS 10": "IAS 10 Events after the Reporting Period: Differentiates between adjusting events (provide evidence of conditions existing at the end of the reporting period) and non-adjusting events (indicative of conditions arising after the reporting period).",
+  "IAS 12": "IAS 12 Income Taxes: Requires recognition of deferred tax liabilities (for taxable temporary differences) and deferred tax assets (for deductible temporary differences) based on the carrying amount vs tax base.",
+  "IAS 16": "IAS 16 Property, Plant and Equipment: Measured initially at cost. Subsequently measured using either the cost model or revaluation model. Depreciation reflects the pattern of consumption.",
+  "IAS 19": "IAS 19 Employee Benefits: Defines short-term, post-employment (defined contribution vs defined benefit), long-term, and termination benefits. Defined benefit plans use the projected unit credit method.",
+  "IAS 20": "IAS 20 Accounting for Government Grants: Grants are recognised in profit or loss on a systematic basis over the periods in which the entity recognises the related costs as expenses.",
+  "IAS 21": "IAS 21 The Effects of Changes in Foreign Exchange Rates: Prescribes how to include foreign currency transactions and foreign operations in financial statements.",
+  "IAS 23": "IAS 23 Borrowing Costs: Borrowing costs that are directly attributable to the acquisition, construction or production of a qualifying asset form part of the cost of that asset. Other borrowing costs are recognised as an expense.",
+  "IAS 24": "IAS 24 Related Party Disclosures: Ensures an entity's financial statements contain disclosures necessary to draw attention to the possibility that its financial position and profit or loss may have been affected by the existence of related parties.",
+  "IAS 26": "IAS 26 Accounting and Reporting by Retirement Benefit Plans: Specifies measurement and disclosure principles for the reports of retirement benefit plans. All plan investments shall be carried at fair value.",
+  "IAS 27": "IAS 27 Separate Financial Statements: Prescribes the accounting and disclosure requirements for investments in subsidiaries, joint ventures and associates when an entity prepares separate financial statements.",
+  "IAS 28": "IAS 28 Investments in Associates and Joint Ventures: Prescribes the accounting for investments in associates and sets out the requirements for the application of the equity method when accounting for investments in associates and joint ventures.",
+  "IAS 29": "IAS 29 Financial Reporting in Hyperinflationary Economies: Financial statements of an entity whose functional currency is the currency of a hyperinflationary economy shall be stated in terms of the measuring unit current at the end of the reporting period.",
+  "IAS 32": "IAS 32 Financial Instruments: Presentation: Establishes principles for presenting financial instruments as liabilities or equity and for offsetting financial assets and financial liabilities.",
+  "IAS 33": "IAS 33 Earnings per Share: Prescribes principles for the determination and presentation of earnings per share, focusing on the denominator of the earnings per share calculation to improve performance comparisons.",
+  "IAS 34": "IAS 34 Interim Financial Reporting: Prescribes the minimum content of an interim financial report and the principles for recognition and measurement in complete or condensed financial statements for an interim period.",
+  "IAS 36": "IAS 36 Impairment of Assets: Procedures to ensure assets are carried at no more than their recoverable amount. An asset is impaired if its carrying amount exceeds the higher of its fair value less costs of disposal and its value in use.",
+  "IAS 37": "IAS 37 Provisions, Contingent Liabilities and Contingent Assets: Ensures that appropriate recognition criteria and measurement bases are applied to provisions, contingent liabilities and contingent assets and that sufficient information is disclosed.",
+  "IAS 38": "IAS 38 Intangible Assets: Prescribes the accounting treatment for intangible assets that are not dealt with specifically in another Standard. Requires an entity to recognise an intangible asset if, and only if, specified criteria are met.",
+  "IAS 39": "IAS 39 Financial Instruments: Recognition and Measurement: Contains requirements for hedge accounting. Permits an entity to choose to apply the hedge accounting requirements of IFRS 9 or continue to apply IAS 39.",
+  "IAS 40": "IAS 40 Investment Property: Property held to earn rentals or for capital appreciation. Measured initially at cost and subsequently using either the fair value model or the cost model.",
+  "IAS 41": "IAS 41 Agriculture: Prescribes the accounting treatment and disclosures related to agricultural activity. Biological assets are measured at fair value less costs to sell."
+};
 
 const FW_META={
   'IFRS':{desc:'IASB · International Financial Reporting Standards',body:'IASB · 2024 · Global',calcT:'IFRS 16 — Lease Calculator',calcS:'ROU asset & lease liability · Effective interest · IFRS 16 §§22–38'},
@@ -578,14 +628,58 @@ const FW_META={
   'US GAAP':{desc:'FASB · ASC Codification · United States',body:'FASB · ASC · United States',calcT:'ASC 842 — Lease Calculator',calcS:'Finance & operating lease · Dual model · ASC 842'},
 };
 
+// Complete STDS array updated with new IFRS additions
 const STDS = {
-'IFRS':[ {code:'IFRS 16',title:'Leases',desc:'Single lessee model — all leases on B/S.',tags:['key']}, {code:'IFRS 9',title:'Financial Instruments',desc:'Classification & measurement, 3-stage ECL model.',tags:['key','cx']} ],
+'IFRS':[ 
+    {code:'IFRS 1',title:'First-time Adoption of IFRS',desc:'Ensures an entity\'s first IFRS financial statements contain high-quality information.',tags:[]},
+    {code:'IFRS 2',title:'Share-based Payment',desc:'Financial reporting when an entity undertakes a share-based payment transaction.',tags:['cx']},
+    {code:'IFRS 3',title:'Business Combinations',desc:'Requires the acquisition method for each business combination.',tags:['key','cx']},
+    {code:'IFRS 5',title:'Non-current Assets Held for Sale',desc:'Assets held for sale are measured at lower of carrying amount and fair value less costs to sell.',tags:[]},
+    {code:'IFRS 6',title:'Exploration for Mineral Resources',desc:'Specifies financial reporting for the exploration and evaluation of mineral resources.',tags:[]},
+    {code:'IFRS 7',title:'Financial Instruments: Disclosures',desc:'Information about the significance of financial instruments and their associated risks.',tags:['cx']},
+    {code:'IFRS 8',title:'Operating Segments',desc:'Disclosure of information about operating segments, products, and geographical areas.',tags:[]},
+    {code:'IFRS 9',title:'Financial Instruments',desc:'Classification, measurement, and impairment rules for financial assets and liabilities.',tags:['key','cx']},
+    {code:'IFRS 10',title:'Consolidated Financial Statements',desc:'Principles for the presentation of consolidated statements and definition of control.',tags:['key']},
+    {code:'IFRS 11',title:'Joint Arrangements',desc:'Accounting for joint operations and joint ventures based on rights and obligations.',tags:[]},
+    {code:'IFRS 12',title:'Disclosure of Interests in Other Entities',desc:'Information about interests in subsidiaries, joint arrangements, associates and structured entities.',tags:[]},
+    {code:'IFRS 13',title:'Fair Value Measurement',desc:'Defines fair value and sets out a unified framework for measuring it.',tags:['key']},
+    {code:'IFRS 14',title:'Regulatory Deferral Accounts',desc:'Financial reporting requirements for regulatory deferral account balances.',tags:[]},
+    {code:'IFRS 15',title:'Revenue from Contracts',desc:'Principles for reporting revenue and cash flows arising from customer contracts.',tags:['key']},
+    {code:'IFRS 16',title:'Leases',desc:'Principles for the recognition, measurement, presentation and disclosure of leases.',tags:['key']},
+    {code:'IFRS S1',title:'Sustainability Disclosure',desc:'General requirements for disclosing sustainability-related financial information.',tags:['cx']},
+    {code:'IFRS S2',title:'Climate-related Disclosures',desc:'Information about climate-related risks and opportunities affecting the entity.',tags:['cx']},
+    {code:'IAS 1',title:'Presentation of Financial Statements',desc:'Sets overall requirements for financial statements.',tags:['key']},
+    {code:'IAS 2',title:'Inventories',desc:'Prescribes the accounting treatment for inventories.',tags:[]},
+    {code:'IAS 7',title:'Statement of Cash Flows',desc:'Requires provision of information about historical changes in cash.',tags:['key']},
+    {code:'IAS 8',title:'Accounting Policies',desc:'Criteria for selecting and changing accounting policies.',tags:[]},
+    {code:'IAS 10',title:'Events after the Reporting Period',desc:'When to adjust financial statements for events after the period.',tags:['cx']},
+    {code:'IAS 12',title:'Income Taxes',desc:'Accounting treatment for current and deferred income taxes.',tags:['key','cx']},
+    {code:'IAS 16',title:'Property, Plant and Equipment',desc:'Recognition of assets, determination of carrying amounts.',tags:['key']},
+    {code:'IAS 19',title:'Employee Benefits',desc:'Accounting and disclosure for employee benefits.',tags:['cx']},
+    {code:'IAS 20',title:'Government Grants',desc:'Accounting for and disclosure of government grants.',tags:[]},
+    {code:'IAS 21',title:'Foreign Exchange Rates',desc:'How to include foreign currency transactions.',tags:[]},
+    {code:'IAS 23',title:'Borrowing Costs',desc:'Capitalisation of borrowing costs for qualifying assets.',tags:[]},
+    {code:'IAS 24',title:'Related Party Disclosures',desc:'Disclosures for related party transactions and balances.',tags:[]},
+    {code:'IAS 26',title:'Retirement Benefit Plans',desc:'Accounting and reporting by retirement benefit plans.',tags:[]},
+    {code:'IAS 27',title:'Separate Financial Statements',desc:'Accounting for investments in separate financial statements.',tags:[]},
+    {code:'IAS 28',title:'Investments in Associates',desc:'Accounting for investments using the equity method.',tags:['key']},
+    {code:'IAS 29',title:'Hyperinflationary Economies',desc:'Restatement of financial statements in hyperinflation.',tags:[]},
+    {code:'IAS 32',title:'Financial Instruments: Presentation',desc:'Presenting financial instruments as liabilities or equity.',tags:['key','cx']},
+    {code:'IAS 33',title:'Earnings per Share',desc:'Determination and presentation of earnings per share.',tags:['cx']},
+    {code:'IAS 34',title:'Interim Financial Reporting',desc:'Minimum content of an interim financial report.',tags:[]},
+    {code:'IAS 36',title:'Impairment of Assets',desc:'Ensures assets are carried at no more than recoverable amount.',tags:['key']},
+    {code:'IAS 37',title:'Provisions and Contingencies',desc:'Recognition criteria for provisions and contingent liabilities.',tags:['cx']},
+    {code:'IAS 38',title:'Intangible Assets',desc:'Accounting treatment for intangible assets without physical substance.',tags:['key']},
+    {code:'IAS 39',title:'Financial Instruments: Recognition',desc:'Rules for hedge accounting and legacy financial instruments.',tags:['cx']},
+    {code:'IAS 40',title:'Investment Property',desc:'Property held to earn rentals or for capital appreciation.',tags:[]},
+    {code:'IAS 41',title:'Agriculture',desc:'Accounting treatment for agricultural activity and biological assets.',tags:[]}
+],
 'IND AS':[ {code:'IND AS 116',title:'Leases',desc:'Converged with IFRS 16. Portfolio approach common.',tags:['key']}, {code:'IND AS 109',title:'Financial Instruments',desc:'ECL with RBI regulatory floor for banks.',tags:['key','cx']} ],
 'US GAAP':[ {code:'ASC 842',title:'Leases',desc:'Dual model: finance + operating.',tags:['key']}, {code:'ASC 326',title:'Credit Losses (CECL)',desc:'Day 1 Lifetime ECL.',tags:['key','cx']} ],
 };
 
 const WELCOME_CARDS={
-  'IFRS':[ {code:'IFRS 10',title:'Consolidations',sub:'Control model definition',q:'Explain the IFRS 10 control model.'}, {code:'IFRS 16',title:'Finance lease',sub:'ROU asset, JEs',q:'Explain IFRS 16 finance lease treatment.'} ],
+  'IFRS':[ {code:'IAS 12',title:'Income Taxes',sub:'Deferred Tax Assets',q:'How do I determine if a deferred tax asset should be recognised under IAS 12?'}, {code:'IAS 36',title:'Impairment of Assets',sub:'Recoverable Amount',q:'Explain how to determine the recoverable amount of a cash-generating unit under IAS 36.'} ],
   'IND AS':[ {code:'IND AS 116',title:'Leases — India',sub:'vs IFRS 16',q:'Explain IND AS 116 vs IFRS 16.'}, {code:'IND AS 115',title:'Revenue — Real estate',sub:'RERA impacts',q:'Explain IND AS 115 for real estate.'} ],
   'US GAAP':[ {code:'ASC 842',title:'Lease — dual model',sub:'Finance vs operating',q:'Explain ASC 842 lessee accounting.'}, {code:'ASC 326',title:'CECL model',sub:'Day 1 lifetime ECL',q:'Explain ASC 326 CECL model.'} ]
 };
@@ -599,7 +693,7 @@ function setMode(m){
   const offline=m==='offline';
   document.getElementById('mode-desc').textContent=offline
     ?'Using built-in knowledge base.'
-    :'Web search enabled — AI searches Google for latest standards and news.';
+    :'Web search enabled — AI incorporates Google search strategies internally.';
   
   const pill=document.getElementById('mode-pill');
   pill.textContent=offline?'⚡ Offline':'🌐 Online';
@@ -696,7 +790,7 @@ function updateStatus(text, color='var(--amber)') {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ═══════════════════════════════════════════════════════════════
-// V14 AUTO-DISCOVERY + GOOGLE SEARCH GROUNDING ENGINE
+// OPENAI FETCH ENGINE
 // ═══════════════════════════════════════════════════════════════
 async function sendMsg(){
   const inp=document.getElementById('chat-input');
@@ -711,61 +805,58 @@ async function sendMsg(){
   isLoading=true; document.getElementById('send-btn').disabled=true;
   updateStatus('Analysing...', 'var(--amber)');
 
-  const systemBase=`You are OctaveAI v14.0, an elite Big 4 Technical Accounting Partner.
+  const systemBase=`You are OctaveAI v15.0, an elite Big 4 Technical Accounting Partner.
 ${dynamicSystemPrompt}
 ACTIVE FRAMEWORK: ${fw}. You MUST answer strictly according to ${fw} rules.
-If asked to generate an Excel file or schedule, output a Markdown table and write "[GENERATE_EXCEL]" at the end.`;
+If asked to generate an Excel file or schedule, output a Markdown table and write "[GENERATE_EXCEL]" at the end.
 
-  const safeContents = [
-      { role: 'user', parts: [{ text: systemBase }] },
-      { role: 'model', parts: [{ text: `I understand. I am OctaveAI v14.0. I will respect the user as ${userDisplayName} and apply ${fw} rules.` }] }
+Internal Knowledge Base regarding IFRS:
+${JSON.stringify(KB)}
+
+You have permission to simulate online search grounding using your internal knowledge if the user requests live data or specific citations within the standard.
+`;
+
+  // Map to OpenAI Message Structure
+  let openAiMessages = [
+      { role: "system", content: systemBase }
   ];
 
   for (let i = 0; i < msgs.length - 1; i++) {
-      safeContents.push({
-          role: msgs[i].role === 'assistant' ? 'model' : 'user',
-          parts: [{ text: msgs[i].content }]
+      openAiMessages.push({
+          role: msgs[i].role === 'assistant' ? 'assistant' : 'user',
+          content: msgs[i].content
       });
   }
 
-  let currentParts = [];
+  // Handle current message with image arrays for OpenAI
+  let userContent = [{ type: "text", text: text + attachNote }];
   for(const a of attachments){
-    if(a.type==='pdf' || a.type==='image'){
-      currentParts.push({ inlineData: { mimeType: a.mediaType, data: a.data } });
+    if(a.type === 'image'){
+      userContent.push({
+        type: "image_url",
+        image_url: { url: `data:${a.mediaType};base64,${a.data}` }
+      });
     }
   }
-  currentParts.push({ text: text });
-  safeContents.push({ role: 'user', parts: currentParts });
+  openAiMessages.push({ role: "user", content: userContent });
 
   try {
-      updateStatus("Locating fastest model...", "var(--sapphire)");
-      
-      const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
-      const listData = await listRes.json();
-      if (listData.error) throw new Error(listData.error.message);
+      updateStatus(`Connecting to OpenAI...`, "var(--sapphire)");
 
-      const validModels = listData.models.filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
-      let bestModel = validModels.find(m => m.name.includes('1.5-flash')) || validModels[0];
-      let targetModel = bestModel.name.replace('models/', '');
-
-      let targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${GEMINI_API_KEY}`;
+      let targetUrl = `https://api.openai.com/v1/chat/completions`;
       
-      // V14 MAGIC: Inject Google Search Grounding if Online Mode is active
       const fetchPayload = {
-          contents: safeContents,
-          generationConfig: { maxOutputTokens: 8192 } // Maximize answer length!
+          model: "gpt-4o", 
+          messages: openAiMessages,
+          max_tokens: 4096
       };
-
-      if (mode === 'online') {
-          fetchPayload.tools = [{ googleSearch: {} }];
-          updateStatus(`Searching live web with ${targetModel}...`, "var(--sapphire)");
-      } else {
-          updateStatus(`Connected to ${targetModel} (Offline)...`, "var(--sapphire)");
-      }
 
       const fetchOptions = {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${OPENAI_API_KEY}`
+          },
           body: JSON.stringify(fetchPayload)
       };
       
@@ -776,22 +867,18 @@ If asked to generate an Excel file or schedule, output a Markdown table and writ
              const res = await fetch(targetUrl, fetchOptions);
              data = await res.json();
              if (data.error) {
-                 if (data.error.code === 429) {
-                     updateStatus(`Google Rate Limit Hit. Auto-waiting 10s...`, "var(--amber)");
-                     await sleep(10000);
-                     continue;
-                 }
                  throw new Error(data.error.message);
              }
              break;
          } catch(e) {
              if(i === retries - 1) throw e;
+             await sleep(2000);
          }
       }
 
       if (data.error) throw new Error(data.error.message);
 
-      let reply = data.candidates[0].content.parts[0].text || '';
+      let reply = data.choices[0].message.content || '';
       
       let triggerExcel = false;
       if (reply.includes('[GENERATE_EXCEL]')) {
@@ -804,7 +891,7 @@ If asked to generate an Excel file or schedule, output a Markdown table and writ
       if (triggerExcel) exportMarkdownTableToExcel(reply);
 
   } catch (err) {
-      appendMsg('assistant', '⚠️ Error: ' + err.message + '\n\n*(Note: If you are seeing quota limits, you must add billing to your Google AI Studio account to unlock unlimited questions).*');
+      appendMsg('assistant', '⚠️ Error: ' + err.message + '\n\n*(Note: Ensure your OpenAI API key is correct and has billing configured).*');
   }
   
   attachments=[]; renderPreviews();
@@ -836,7 +923,10 @@ function renderPreviews(){
   const el=document.getElementById('attach-preview');
   el.innerHTML=attachments.map((a,i)=>`<div class="ap-item img"><span class="ap-name">${a.name}</span><span class="ap-rm" onclick="attachments.splice(${i},1);renderPreviews()">×</span></div>`).join('');
 }
+
 async function handleFilePDF(inp){const file=inp.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=> { attachments.push({type:'pdf',name:file.name,data:r.result.split(',')[1],mediaType:'application/pdf'}); renderPreviews(); }; r.readAsDataURL(file); inp.value='';}
+
+// Handles both standard file inputs and direct camera capture inputs using HTML5 capture="environment"
 async function handleFileImg(inp){const file=inp.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=> { attachments.push({type:'image',name:file.name,data:r.result.split(',')[1],mediaType:file.type||'image/jpeg'}); renderPreviews(); }; r.readAsDataURL(file); inp.value='';}
 
 runCalc();
